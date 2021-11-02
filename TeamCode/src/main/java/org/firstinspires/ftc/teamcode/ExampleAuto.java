@@ -22,10 +22,10 @@ import com.qualcomm.robotcore.util.Range;
  *  However, there are several ways that this type of sequence could be streamlined,
  **/
 
-@Autonomous(name="DriveForward", group="Examples")
+@Autonomous(name="ExampleAuto", group="Examples")
 //@Disabled
 
-public class DriveForwardOp extends LinearOpMode {
+public class ExampleAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     HardwareMap2022 robot = new HardwareMap2022();
 
