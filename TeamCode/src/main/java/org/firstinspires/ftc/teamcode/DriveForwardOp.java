@@ -17,12 +17,10 @@ import com.qualcomm.robotcore.util.Range;
  *   The desired path in this example is:
  *   - Drive forward for 3 seconds
  *   - Spin right for 1.3 seconds
- *   - Drive Backwards for 1 Second
- *   - Stop and close the claw.
  *
  *  The code is written in a simple form with no optimizations.
  *  However, there are several ways that this type of sequence could be streamlined,
- */
+ **/
 
 @Autonomous(name="DriveForward", group="Examples")
 //@Disabled
