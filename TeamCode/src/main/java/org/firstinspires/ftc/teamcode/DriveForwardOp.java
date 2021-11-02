@@ -38,7 +38,6 @@ public class DriveForwardOp extends LinearOpMode {
     public void runOpMode(){
         robot.init(hardwareMap);
 
-        double frontLeft, frontRight, backLeft, backRight;
         robot.frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         robot.backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
