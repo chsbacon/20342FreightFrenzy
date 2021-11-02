@@ -40,7 +40,7 @@ public class ExampleTeleOp extends LinearOpMode {
 
     // creates an instance of your hardware map, called "robot" 
     // The hardware map is where all the phone connection and device setup stuff goes
-    MyHWMap robot = new MyHWMap();
+    HardwareMap2022 robot = new HardwareMap2022();
     private ElapsedTime runtime = new ElapsedTime(); 
     
     //when the init button is pressed, run the stuff in runOpMode
