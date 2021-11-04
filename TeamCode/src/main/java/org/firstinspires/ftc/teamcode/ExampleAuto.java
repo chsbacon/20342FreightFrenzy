@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
  **/
 
 @Autonomous(name="ExampleAuto", group="Examples")
-//@Disabled
+@Disabled
 
 public class ExampleAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -24,8 +24,7 @@ public class ExampleAuto extends LinearOpMode {
     public void runOpMode(){
         robot.init(hardwareMap);
 
-        robot.frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        robot.backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -33,8 +32,8 @@ public class ExampleAuto extends LinearOpMode {
         waitForStart();
         runtime.reset();
       
-        while(opModeisActive()){
-        
+        while(opModeIsActive()){
+
         }
     }
 }

@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.util.Range;
  * The code assumes that you do NOT have encoders on the wheels,
  *
  *   The desired path in this example is:
- *   - Drive forward for 3 seconds
- *   - Spin right for 1.3 seconds
+ *   - Drive forward for 2 seconds
+ *   - Spin left for 1.3 seconds
  *
  *  The code is written in a simple form with no optimizations.
  *  However, there are several ways that this type of sequence could be streamlined,
@@ -29,8 +29,8 @@ public class AutoDrive extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     HardwareMap2022 robot = new HardwareMap2022();
 
-    static final double  FORWARD_SPEED = 0.6;
-    static final double  TURN_SPEED    = 0.5;
+    static final double  FORWARD_SPEED = 0.2;
+    static final double  TURN_SPEED    = 0.3;
 
     @Override
     public void runOpMode(){
@@ -45,16 +45,16 @@ public class AutoDrive extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
+        // Step 1:  Drive forward for 2 seconds
         robot.leftMotor.setPower(FORWARD_SPEED);
         robot.rightMotor.setPower(FORWARD_SPEED);
         runtime.reset();
-        while(opModeIsActive() && (runtime.seconds() < 3.0)){
+        while(opModeIsActive() && (runtime.seconds() < 2.0)){
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        // Step 2:  Spin right for 1.3 seconds
+        // Step 2:  Spin left for 1.3 seconds
         robot.leftMotor.setPower(TURN_SPEED);
         robot.rightMotor.setPower(-TURN_SPEED);
         runtime.reset();

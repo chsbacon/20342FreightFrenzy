@@ -31,7 +31,7 @@ import java.util.Locale;
 
 
 @TeleOp(name = "ExampleFileOnPhone", group = "Opmode")
-//@Disabled
+@Disabled
 
 
 
@@ -66,8 +66,8 @@ public class ExampleTeleOp extends LinearOpMode {
          
             // Most robots need the motor on one side to be reversed to drive forward
             // Reverse the motor that runs backwards when connected directly to the battery
-            robot.frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.leftMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
             
             // Driving with POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
@@ -80,8 +80,8 @@ public class ExampleTeleOp extends LinearOpMode {
             //example if statement: send calculated power to wheels
             if (gamepad1.a) {
                 sleep(250);
-                robot.frontLeftMotor.setPower(leftPower);
-                robot.frontRightMotor.setPower(rightPower);
+                robot.leftMotor.setPower(leftPower);
+                robot.rightMotor.setPower(rightPower);
             }
             
             // Show the elapsed game time and wheel power.
@@ -97,10 +97,8 @@ public class ExampleTeleOp extends LinearOpMode {
     // Example Functions : you put your functions outside of the runOpMode
     //kills power ot all wheels
     void stopDriving(){
-        robot.frontLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        robot.leftMotor.setPower(0);
+        robot.rightMotor.setPower(0);
     }
 
 

@@ -36,10 +36,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareMap2022
 {
     /* Public OpMode members. */
-    public DcMotor  frontLeftMotor   = null;
-    public DcMotor  frontRightMotor = null;
-    public DcMotor  backLeftMotor = null;
-    public DcMotor  backRightMotor = null;
+    public DcMotor  leftMotor   = null;
+    public DcMotor  rightMotor = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -56,23 +54,17 @@ public class HardwareMap2022
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        frontLeftMotor  = hwMap.get(DcMotor.class, "FLM"); //P0
-        frontRightMotor  = hwMap.get(DcMotor.class, "FRM"); //P1
-        backLeftMotor = hwMap.get(DcMotor.class, "BLM"); //P2
-        backRightMotor = hwMap.get(DcMotor.class, "BRM"); //P3
+        leftMotor  = hwMap.get(DcMotor.class, "LM"); //P0
+        rightMotor  = hwMap.get(DcMotor.class, "RM"); //P1
 
         // Set all motors to zero power
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
  }
