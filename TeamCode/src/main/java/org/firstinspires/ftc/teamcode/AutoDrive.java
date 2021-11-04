@@ -36,8 +36,7 @@ public class AutoDrive extends LinearOpMode {
     public void runOpMode(){
         robot.init(hardwareMap);
 
-        robot.frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        robot.backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -47,10 +46,8 @@ public class AutoDrive extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        robot.frontLeftMotor.setPower(FORWARD_SPEED);
-        robot.backLeftMotor.setPower(FORWARD_SPEED);
-        robot.frontRightMotor.setPower(FORWARD_SPEED);
-        robot.backRightMotor.setPower(FORWARD_SPEED);
+        robot.leftMotor.setPower(FORWARD_SPEED);
+        robot.rightMotor.setPower(FORWARD_SPEED);
         runtime.reset();
         while(opModeIsActive() && (runtime.seconds() < 3.0)){
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
@@ -58,10 +55,8 @@ public class AutoDrive extends LinearOpMode {
         }
 
         // Step 2:  Spin right for 1.3 seconds
-        robot.frontLeftMotor.setPower(TURN_SPEED);
-        robot.backLeftMotor.setPower(TURN_SPEED);
-        robot.frontRightMotor.setPower(-TURN_SPEED);
-        robot.backRightMotor.setPower(-TURN_SPEED);
+        robot.leftMotor.setPower(TURN_SPEED);
+        robot.rightMotor.setPower(-TURN_SPEED);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.3)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -69,10 +64,8 @@ public class AutoDrive extends LinearOpMode {
         }
 
         // Step 3: Stop motors
-        robot.frontLeftMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        robot.leftMotor.setPower(0);
+        robot.rightMotor.setPower(0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
