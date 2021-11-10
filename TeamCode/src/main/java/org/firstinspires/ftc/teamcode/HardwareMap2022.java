@@ -27,13 +27,16 @@ public class HardwareMap2022
         // Define and Initialize Motors
         leftMotor  = hwMap.get(DcMotor.class, "LM"); //P0
         rightMotor  = hwMap.get(DcMotor.class, "RM"); //P1
-
+        
+        //Reverse right motor
+        leftMotor.setDirection(DcMotor.Direction.FORWARD); 
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        
         // Set all motors to zero power
         leftMotor.setPower(0);
         rightMotor.setPower(0);
 
         // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
