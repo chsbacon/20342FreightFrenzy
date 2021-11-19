@@ -32,7 +32,7 @@ public class EncoderHMap
         leftMotor  = hwMap.get(DcMotor.class, "LM");  //P0
         rightMotor  = hwMap.get(DcMotor.class, "RM"); //P1
         
-        //Reverse right motor
+        //Reverse left motor
         leftMotor.setDirection(DcMotor.Direction.FORWARD); 
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         
