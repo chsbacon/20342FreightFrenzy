@@ -14,19 +14,19 @@ public class EncoderAutoDrive extends LinearOpMode{
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV = 537.6;
-    static final double     DRIVE_GEAR_REDUCTION = 2.0;   // output (wheel) speed / input (motor) speed
-    static final double     WHEEL_DIAMETER_INCHES = 4.0;
+    static final double     DRIVE_GEAR_REDUCTION = 60.0/75.0;   // output (wheel) speed / input (motor) speed
+    static final double     WHEEL_DIAMETER_INCHES = 5.0;
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                              (WHEEL_DIAMETER_INCHES * 3.1415);
+            (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.3;
     static final double TURN_SPEED = 0.2;
 
     @Override
     public void runOpMode(){
         robot.init(hardwareMap);
-        
+
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Resetting Encoders");   
+        telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
 
         robot.leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -34,23 +34,23 @@ public class EncoderAutoDrive extends LinearOpMode{
 
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
+
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
-                          robot.leftMotor.getCurrentPosition(),
-                          robot.rightMotor.getCurrentPosition());
+                robot.leftMotor.getCurrentPosition(),
+                robot.rightMotor.getCurrentPosition());
         telemetry.update();
-        
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-        
+        encoderDrive(DRIVE_SPEED,  47,  47, 10.0);  // S1: Forward 47 Inches with 10 Sec timeout
+        //encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        //encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
@@ -89,13 +89,12 @@ public class EncoderAutoDrive extends LinearOpMode{
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         while (opModeIsActive() &&
-               (runtime.seconds() < timeoutS) &&
-               (robot.leftMotor.isBusy() && robot.rightMotor.isBusy())) {
-
+                (runtime.seconds() < timeoutS) &&
+                (robot.leftMotor.isBusy() && robot.rightMotor.isBusy())) {
             telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
             telemetry.addData("Path2",  "Running at %7d :%7d",
-                                        robot.leftMotor.getCurrentPosition(),
-                                        robot.rightMotor.getCurrentPosition());
+                    robot.leftMotor.getCurrentPosition(),
+                    robot.rightMotor.getCurrentPosition());
             telemetry.update();
         }
 
