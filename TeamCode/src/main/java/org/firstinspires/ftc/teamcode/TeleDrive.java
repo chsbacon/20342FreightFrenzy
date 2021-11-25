@@ -24,8 +24,6 @@ public class TeleDrive extends LinearOpMode{
     public void runOpMode(){
         robot.init(hardwareMap);
 
-        robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -44,6 +42,7 @@ public class TeleDrive extends LinearOpMode{
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.update();
         }
 
     }
