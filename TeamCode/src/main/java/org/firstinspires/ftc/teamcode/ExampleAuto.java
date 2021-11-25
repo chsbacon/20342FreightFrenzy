@@ -13,10 +13,10 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="TemplateAuto", group="Examples")
+@Autonomous(name="ExampleAuto", group="Examples")
 @Disabled
 
-public class TemplateAuto extends LinearOpMode {
+public class ExampleAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     HardwareMap2022 robot = new HardwareMap2022();
 
