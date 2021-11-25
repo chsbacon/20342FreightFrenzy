@@ -36,8 +36,6 @@ public class AutoDrive extends LinearOpMode {
     public void runOpMode(){
         robot.init(hardwareMap);
 
-        robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
