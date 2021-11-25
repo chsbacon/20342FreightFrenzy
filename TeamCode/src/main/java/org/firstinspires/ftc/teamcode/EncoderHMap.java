@@ -12,8 +12,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class EncoderHMap
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
+    public DcMotor  leftMotor     = null;
+    public DcMotor  rightMotor    = null;
+    public DcMotor  armMotor      = null;
+    public DcMotor  carouselMotor = null;
+    public DcMotor  intakeMotor   = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -29,8 +32,11 @@ public class EncoderHMap
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftMotor  = hwMap.get(DcMotor.class, "LM");  //P0
-        rightMotor  = hwMap.get(DcMotor.class, "RM"); //P1
+        leftMotor     = hwMap.get(DcMotor.class, "LM");  //P0
+        rightMotor    = hwMap.get(DcMotor.class, "RM");  //P1
+        armMotor      = hwMap.get(DcMotor.class, "");  //P
+        carouselMotor = hwMap.get(DcMotor.class, "");  //P
+        intakeMotor   = hwMap.get(DcMotor.class, "");  //P
         
         //Reverse right motor
         leftMotor.setDirection(DcMotor.Direction.FORWARD); 
@@ -39,9 +45,13 @@ public class EncoderHMap
         // Set all motors to zero power
         leftMotor.setPower(0);
         rightMotor.setPower(0);
+        armMotor.setPower(0);
+        carouselMotor.setPower(0);
+        intakeMotor.setPower(0);
 
-        // Set all motors to run with encoders.
+        // Set motors to run with encoders.
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
  }
