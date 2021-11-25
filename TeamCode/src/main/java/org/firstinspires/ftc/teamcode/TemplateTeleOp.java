@@ -1,4 +1,3 @@
-//simplified version of FTC7080 ExampleTeleOp
 //imports
 package org.firstinspires.ftc.teamcode;
 
@@ -63,11 +62,6 @@ public class ExampleTeleOp extends LinearOpMode {
         // when the game is live -- when the robot is free to be driven -- when the driver has pressed play
         // This is where like 90% of your code will go
         while (opModeIsActive()) {
-         
-            // Most robots need the motor on one side to be reversed to drive forward
-            // Reverse the motor that runs backwards when connected directly to the battery
-            robot.leftMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);
             
             // Driving with POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
@@ -83,6 +77,7 @@ public class ExampleTeleOp extends LinearOpMode {
                 robot.leftMotor.setPower(leftPower);
                 robot.rightMotor.setPower(rightPower);
             }
+            //you should have a bunch of if/else if statements for each button on controller 
             
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -95,7 +90,7 @@ public class ExampleTeleOp extends LinearOpMode {
 
 
     // Example Functions : you put your functions outside of the runOpMode
-    //kills power ot all wheels
+    //kills power of all wheels
     void stopDriving(){
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
