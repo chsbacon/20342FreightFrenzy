@@ -31,9 +31,5 @@ public class ExampleAuto extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-      
-        while(opModeIsActive()){
-
-        }
     }
 }
