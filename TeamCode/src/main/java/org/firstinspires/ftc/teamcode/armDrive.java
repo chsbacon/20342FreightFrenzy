@@ -31,15 +31,72 @@ public class armDrive extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-
-        while(opModeIsActive()){
-
+        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        runIntakeMotor(2.5, true);
+        runIntakeMotor(2.5, false);
+        armSet(1);
+        armSet(2);
+        armSet(3);
+        armSet(4);
+    }
+    public void runIntakeMotor(double time, boolean deposit) {
+        runtime.reset();
+        if(deposit) {
+            while(opModeIsActive() && runtime.seconds() < time) {
+                robot.intakeMotor.setPower(-1);
+                telemetry.addData("Status", "Intake depositing");
+                telemetry.update();
+            }
+        } else {
+            while(opModeIsActive() && runtime.seconds() < time) {
+                robot.intakeMotor.setPower(1);
+                telemetry.addData("Status", "Intake collecting");
+                telemetry.update();
+            }
         }
     }
-    public void armMove(int degrees){
-        double ticks = (degrees/360.0)*537.6;
-        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        int targetPos = robot.armMotor.getTargetPosition()+(int)ticks;
-        robot.armMotor.setTargetPosition(targetPos);
+    public void armMove(int degrees) {
+        double ticks = (degrees/360.0)*288;
+        robot.armMotor.setTargetPosition((int)ticks);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotor.setPower(1);
+        while(robot.armMotor.isBusy()) {
+            //Nothing needed here
+        }
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.armMotor.setPower(0);
+    }
+    public void armSet(int Setting) {
+        switch(Setting) {
+            case 1:
+                armMove(120); //1st level
+                telemetry.addData("Status", "Arm to first level");
+                telemetry.update();
+                runIntakeMotor(2.5, true);
+                break;
+            case 2:
+                armMove(135); //2nd level
+                telemetry.addData("Status", "Arm to first level");
+                telemetry.update();
+                runIntakeMotor(2.5, true);
+                break;
+            case 3:
+                armMove(150); //3rd level
+                telemetry.addData("Status", "Arm to first level");
+                telemetry.update();
+                runIntakeMotor(2.5, true);
+                break;
+            case 4:
+                armMove(-10); //Collecting
+                telemetry.addData("Status", "Arm to first level");
+                telemetry.update();
+                runIntakeMotor(2.5, false);
+                break;
+            case 5: //Neutral
+                break;
+        }
+        armMove(0); //Resting position
+        telemetry.addData("Status", "Arm motor to resting position");
+        telemetry.update();
     }
 }
