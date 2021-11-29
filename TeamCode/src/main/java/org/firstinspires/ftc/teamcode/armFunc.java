@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-public class armFunc {
+public class armFunc extends LinearOpMode {
+    public void runOpMode() {
+    }
     EncoderHMap hwMap = null;
     ElapsedTime runtime = null;
 
@@ -17,10 +19,14 @@ public class armFunc {
     public void runIntakeMotor(double time, boolean deposit) {
         runtime.reset();
         if(deposit) {
+            telemetry.addData("Status", "Intake depositing");
+            telemetry.update();
             while(runtime.seconds() < time) {
                 hwMap.intakeMotor.setPower(-1);
             }
         } else {
+            telemetry.addData("Status", "Intake collecting");
+            telemetry.update();
             while(runtime.seconds() < time) {
                 hwMap.intakeMotor.setPower(1);
             }
@@ -32,7 +38,8 @@ public class armFunc {
         hwMap.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         hwMap.armMotor.setPower(1);
         while(hwMap.armMotor.isBusy()) {
-            //Nothing needed here
+            telemetry.addData("Position", hwMap.armMotor.getCurrentPosition());
+            telemetry.update();
         }
         hwMap.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hwMap.armMotor.setPower(0);
