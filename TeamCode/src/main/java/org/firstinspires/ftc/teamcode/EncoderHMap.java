@@ -34,9 +34,9 @@ public class EncoderHMap
         // Define and Initialize Motors
         leftMotor     = hwMap.get(DcMotor.class, "LM");  //P0
         rightMotor    = hwMap.get(DcMotor.class, "RM");  //P1
-        armMotor      = hwMap.get(DcMotor.class, "");  //P
-        carouselMotor = hwMap.get(DcMotor.class, "");  //P
-        intakeMotor   = hwMap.get(DcMotor.class, "");  //P
+        armMotor      = hwMap.get(DcMotor.class, "AM");  //P
+        carouselMotor = hwMap.get(DcMotor.class, "CM");  //P
+        //intakeMotor   = hwMap.get(DcMotor.class, "");  //P
         
         //Reverse right motor
         leftMotor.setDirection(DcMotor.Direction.FORWARD); 
@@ -47,7 +47,7 @@ public class EncoderHMap
         rightMotor.setPower(0);
         armMotor.setPower(0);
         carouselMotor.setPower(0);
-        intakeMotor.setPower(0);
+        //intakeMotor.setPower(0);
 
         // Set motors to run with encoders.
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
