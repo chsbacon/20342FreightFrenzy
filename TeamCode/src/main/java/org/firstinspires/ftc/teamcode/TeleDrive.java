@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class TeleDrive extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
-    HardwareMap2022 robot = new HardwareMap2022();
+    EncoderHMap robot = new EncoderHMap();
 
     @Override
     public void runOpMode(){
@@ -39,7 +39,10 @@ public class TeleDrive extends LinearOpMode{
 
             robot.leftMotor.setPower(leftPower);
             robot.rightMotor.setPower(rightPower);
-
+            
+            if(gamepad.a){
+            }
+            
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
