@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //@Disabled
 
 public class EncoderTest extends LinearOpMode{
-    EncoderHMap             robot   = new EncoderHMap();
+    GyroHMap             robot   = new GyroHMap();
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV  = 537.6;
@@ -26,7 +26,6 @@ public class EncoderTest extends LinearOpMode{
     public void runOpMode(){
         robot.init(hardwareMap);
 
-        // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");
         telemetry.update();
 
@@ -36,7 +35,6 @@ public class EncoderTest extends LinearOpMode{
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                 robot.leftMotor.getCurrentPosition(),
                 robot.rightMotor.getCurrentPosition());
@@ -57,7 +55,7 @@ public class EncoderTest extends LinearOpMode{
     }
 
     /*
-     *  Method to perfmorm a relative move, based on encoder counts.
+     *  Method to perform a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
     */
     public void encoderDrive(double speed,
@@ -66,20 +64,16 @@ public class EncoderTest extends LinearOpMode{
         int newLeftTarget;
         int newRightTarget;
 
-        // Ensure that the opmode is still active
         if (!opModeIsActive()) return;
 
-        // Determine new target position, and pass to motor controller
         newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
         newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
         robot.leftMotor.setTargetPosition(newLeftTarget);
         robot.rightMotor.setTargetPosition(newRightTarget);
 
-        // Turn On RUN_TO_POSITION
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // reset the timeout time and start motion.
         runtime.reset();
         robot.leftMotor.setPower(Math.abs(speed));
         robot.rightMotor.setPower(Math.abs(speed));
@@ -95,82 +89,76 @@ public class EncoderTest extends LinearOpMode{
             telemetry.update();
         }
 
-        // Stop all motion;
         robot.leftMotor.setPower(0);
         robot.rightMotor.setPower(0);
 
-        // Turn off RUN_TO_POSITION
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        sleep(250);   // optional pause after each move
     }
   
-  /**
+    /**
      * Rotate left or right the number of degrees. Does not support turning more than 350 degrees.
      * @param degrees Degrees to turn, + is left - is right
      */
-    private void rotate(int degrees, double power)
-    {
+    public void rotate(double speed, int degrees) {
         double  leftPower, rightPower;
         int     targetAngle;
 
         // reset gyro to zero.
-        gyro.resetZAxisIntegrator();
+        robot.gyro.resetZAxisIntegrator();
 
         // Gyro returns 0->359 when rotating counter clockwise (left) and 359->0 when rotating
         // clockwise (right).
 
         if (degrees < 0)
         {   // turn right.
-            leftPower = power;
-            rightPower = -power;
+            leftPower = speed;
+            rightPower = -speed;
             targetAngle = 360 + degrees;    // degrees is - for right turn.
         }
         else if (degrees > 0)
         {   // turn left.
-            leftPower = -power;
-            rightPower = power;
+            leftPower = -speed;
+            rightPower = speed;
             targetAngle = degrees;
         }
         else return;
 
         // set power to rotate.
-        leftMotor.setPower(leftPower);
-        rightMotor.setPower(rightPower);
+        robot.leftMotor.setPower(leftPower);
+        robot.rightMotor.setPower(rightPower);
 
         // rotate until turn is completed.
         if (degrees < 0)
         {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && gyro.getHeading() == 0) 
+            while (opModeIsActive() && robot.gyro.getHeading() == 0)
             {
-                telemetry.addData("gyro heading", gyro.getHeading());
+                telemetry.addData("gyro heading", robot.gyro.getHeading());
                 telemetry.update();
                 idle();
             }
 
-            while (opModeIsActive() && gyro.getHeading() > targetAngle) 
+            while (opModeIsActive() && robot.gyro.getHeading() > targetAngle)
             {
-                telemetry.addData("gyro heading", gyro.getHeading());
+                telemetry.addData("gyro heading", robot.gyro.getHeading());
                 telemetry.update();
                 idle();
             }
         }
-        else
-            while (opModeIsActive() && gyro.getHeading() < targetAngle) 
-            {
-                telemetry.addData("gyro heading", gyro.getHeading());
+        else {
+            while (opModeIsActive() && robot.gyro.getHeading() < targetAngle) {
+                telemetry.addData("gyro heading", robot.gyro.getHeading());
                 telemetry.update();
                 idle();
             }
-
+        }
         // turn the motors off.
-        rightMotor.setPower(0);
-        leftMotor.setPower(0);
+        robot.rightMotor.setPower(0);
+        robot.leftMotor.setPower(0);
 
         // Reset gyro heading to zero on new direction we are now pointing.
-        gyro.resetZAxisIntegrator();
+        robot.gyro.resetZAxisIntegrator();
     }
   
 

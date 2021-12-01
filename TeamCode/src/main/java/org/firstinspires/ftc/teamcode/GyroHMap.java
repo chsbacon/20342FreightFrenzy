@@ -24,7 +24,7 @@ public class GyroHMap
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public EncoderHMap(){
+    public GyroHMap(){
     }
 
     /* Initialize standard Hardware interfaces */
@@ -53,7 +53,7 @@ public class GyroHMap
         
         //caliberate gyro
         gyro.calibrate();
-        while (!isStopRequested() && gyro.isCalibrating()){}
+        while (gyro.isCalibrating()){ ; }
       
         // Set motors to run with encoders.
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

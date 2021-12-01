@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AutoDrive extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    HardwareMap2022 robot = new HardwareMap2022();
+    EncoderHMap robot = new EncoderHMap();
 
     static final double  FORWARD_SPEED = 0.2;
     static final double  TURN_SPEED    = 0.3;
