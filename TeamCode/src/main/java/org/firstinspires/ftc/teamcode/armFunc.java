@@ -33,7 +33,7 @@ public class armFunc extends LinearOpMode {
         }
     }
     public void armMove(int degrees) {
-        double ticks = (degrees/360.0)*288;
+        double ticks = (degrees/360.0)*288.0*(125.0/45.0);
         hwMap.armMotor.setTargetPosition((int)ticks);
         hwMap.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         hwMap.armMotor.setPower(1);
@@ -47,19 +47,19 @@ public class armFunc extends LinearOpMode {
     public void armSet(int Setting) {
         switch(Setting) {
             case 1:
-                armMove(120); //1st level
+                armMove(-200); //1st level
                 runIntakeMotor(2.5, true);
                 break;
             case 2:
-                armMove(135); //2nd level
+                armMove(-210); //2nd level
                 runIntakeMotor(2.5, true);
                 break;
             case 3:
-                armMove(150); //3rd level
+                armMove(-230); //3rd level
                 runIntakeMotor(2.5, true);
                 break;
             case 4:
-                armMove(-10); //Collecting
+                armMove(-20); //Collecting
                 runIntakeMotor(2.5, false);
                 break;
             case 5: //Neutral

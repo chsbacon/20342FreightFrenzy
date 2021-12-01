@@ -30,6 +30,7 @@ public class TeleOpArm extends LinearOpMode{
 
         waitForStart();
         runtime.reset();
+        int targetPosition = 0;
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
@@ -43,6 +44,11 @@ public class TeleOpArm extends LinearOpMode{
 
             if (gamepad1.a) {
                 armSet(3);
+                armSet(2);
+                armSet(1);
+            } else if (gamepad1.b) {
+                targetPosition += 5;
+
             }
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
