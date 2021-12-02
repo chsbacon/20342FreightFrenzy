@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class OneEncoderRev extends LinearOpMode{
     GyroHMap             robot   = new GyroHMap();
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime  runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV  = 537.6;
     static final double     DRIVE_GEAR_REDUCTION  = 60.0/75.0;   // output (wheel) speed / input (motor) speed
