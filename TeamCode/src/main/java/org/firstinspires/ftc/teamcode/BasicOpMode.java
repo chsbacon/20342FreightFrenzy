@@ -31,83 +31,61 @@ public class BasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     EncoderHMap robot = new EncoderHMap();
 
-    static final double MOTOR_POWER = 0.8;
-
     @Override
     public void runOpMode(){}
 
     public void runCarousel() {
-        robot.init(hardwareMap);
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        waitForStart();
-        runtime.reset();
-
-        while (opModeIsActive() && (runtime.seconds() < 5)) {
-
-            if (gamepad1.a) {
-                robot.carouselMotor.setPower(MOTOR_POWER);
-                sleep(2500);
-            }
-
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
+        robot.carouselMotor.setPower(0.2);
+        sleep(2000);
         robot.carouselMotor.setPower(0);
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);
-
+        telemetry.addData("Carousel", "Complete");
     }
 
-    public void runIntakeMotor(double time, boolean deposit) {
-        runtime.reset();
+     public void runIntakeMotor(double time, boolean deposit) {
         if(deposit) {
-            while(runtime.seconds() < time) {
-                robot.intakeMotor.setPower(-1);
-            }
-        }
-        else {
-            while(runtime.seconds() < time) {
-                robot.intakeMotor.setPower(1);
-            }
+            robot.intakeMotor.setPower(-1);
+            sleep(time);
+        } else {
+            robot.intakeMotor.setPower(1);
+            sleep(time);
         }
     }
+    
     public void armMove(int degrees) {
-        double ticks = (degrees/360.0)*288;
-        robot.armMotor.setTargetPosition((int)ticks);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        double ticks = (degrees/360.0)*288.0*(45.0/125.0);
+        robot.armMotor.setTargetPosition(ticks);
         robot.armMotor.setPower(1);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         while(robot.armMotor.isBusy()) {
-            //Nothing needed here
         }
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.armMotor.setPower(0);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+    
     public void armSet(int Setting) {
+        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         switch(Setting) {
             case 1:
                 armMove(120); //1st level
-                runIntakeMotor(2.5, true);
+                //runIntakeMotor(2.5, true);
                 break;
             case 2:
                 armMove(135); //2nd level
-                runIntakeMotor(2.5, true);
+                //runIntakeMotor(2.5, true);
                 break;
             case 3:
-                armMove(150); //3rd level
-                runIntakeMotor(2.5, true);
+                armMove(10); //3rd level
+                //runIntakeMotor(2.5, true);
                 break;
             case 4:
                 armMove(-10); //Collecting
-                runIntakeMotor(2.5, false);
+                //runIntakeMotor(2.5, false);
                 break;
             case 5: //Neutral
                 break;
         }
-        armMove(0); //Resting position
+        //armMove(0); //Resting position
     }
 }
