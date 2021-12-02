@@ -75,7 +75,7 @@ public class OpenCV_Test extends LinearOpMode {
                 telemetry.addData("Exception: ", myPipeline.debug);
             }
             // Only use this line of the code when you want to find the lower and upper values, using Ftc Dashboard (https://acmerobotics.github.io/ftc-dashboard/gettingstarted)
-            // testing(myPipeline);
+            testing(myPipeline);
 
             // Watch our YouTube Tutorial for the better explanation
 
