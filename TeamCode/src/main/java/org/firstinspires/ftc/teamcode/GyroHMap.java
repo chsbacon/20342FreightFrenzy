@@ -51,7 +51,7 @@ public class GyroHMap
         carouselMotor.setPower(0);
         //intakeMotor.setPower(0);
         
-        //caliberate gyro
+        //calibrate gyro
         gyro.calibrate();
         while (gyro.isCalibrating()){ ; }
       

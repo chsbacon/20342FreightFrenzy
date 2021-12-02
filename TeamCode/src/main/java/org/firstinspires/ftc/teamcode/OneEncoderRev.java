@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "EncoderTest", group = "Examples")
+@Autonomous(name = "OneEncoderRev", group = "Examples")
 //@Disabled
 
-public class EncoderTest extends LinearOpMode{
+public class OneEncoderRev extends LinearOpMode{
     GyroHMap             robot   = new GyroHMap();
     private ElapsedTime     runtime = new ElapsedTime();
 

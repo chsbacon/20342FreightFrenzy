@@ -40,7 +40,7 @@ public class TeleDrive extends LinearOpMode{
             robot.leftMotor.setPower(leftPower);
             robot.rightMotor.setPower(rightPower);
             
-            if(gamepad.a){
+            if(gamepad1.a){
             }
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
