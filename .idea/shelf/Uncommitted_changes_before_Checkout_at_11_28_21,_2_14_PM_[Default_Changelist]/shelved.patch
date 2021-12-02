@@ -1,0 +1,142 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/EncoderHMap.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode;\n\nimport com.qualcomm.robotcore.hardware.DcMotor;\nimport com.qualcomm.robotcore.hardware.HardwareMap;\nimport com.qualcomm.robotcore.hardware.Servo;\nimport com.qualcomm.robotcore.util.ElapsedTime;\n\n/**\n * Hardware map for robot with encoders\n **/\n\npublic class EncoderHMap\n{\n    /* Public OpMode members. */\n    public DcMotor  leftMotor   = null;\n    public DcMotor  rightMotor  = null;\n    public DcMotor  armMotor  = null;\n\n    /* local OpMode members. */\n    HardwareMap hwMap           =  null;\n    private ElapsedTime period  = new ElapsedTime();\n\n    /* Constructor */\n    public EncoderHMap(){\n    }\n\n    /* Initialize standard Hardware interfaces */\n    public void init(HardwareMap ahwMap) {\n        // Save reference to Hardware map\n        hwMap = ahwMap;\n\n        // Define and Initialize Motors\n        leftMotor  = hwMap.get(DcMotor.class, \"LM\");  //P0\n        rightMotor  = hwMap.get(DcMotor.class, \"RM\"); //P1\n        armMotor  = hwMap.get(DcMotor.class, \"AM\");  //P2\n\n        //Reverse right motor\n        leftMotor.setDirection(DcMotor.Direction.FORWARD);\n        rightMotor.setDirection(DcMotor.Direction.REVERSE);\n\n        // Set all motors to zero power\n        leftMotor.setPower(0);\n        rightMotor.setPower(0);\n        armMotor.setPower(0);\n\n        // Set all motors to run with encoders.\n        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\n        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\n        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/EncoderHMap.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/EncoderHMap.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/EncoderHMap.java	(revision 8107084bde67f67f24cf2c81aa92a5e351aa7aec)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/EncoderHMap.java	(date 1637785114396)
+@@ -15,6 +15,7 @@
+     public DcMotor  leftMotor   = null;
+     public DcMotor  rightMotor  = null;
+     public DcMotor  armMotor  = null;
++    public DcMotor  collectMotor = null;
+ 
+     /* local OpMode members. */
+     HardwareMap hwMap           =  null;
+@@ -33,6 +34,7 @@
+         leftMotor  = hwMap.get(DcMotor.class, "LM");  //P0
+         rightMotor  = hwMap.get(DcMotor.class, "RM"); //P1
+         armMotor  = hwMap.get(DcMotor.class, "AM");  //P2
++        collectMotor  = hwMap.get(DcMotor.class, "CM"); //P3
+ 
+         //Reverse right motor
+         leftMotor.setDirection(DcMotor.Direction.FORWARD);
+@@ -42,6 +44,7 @@
+         leftMotor.setPower(0);
+         rightMotor.setPower(0);
+         armMotor.setPower(0);
++        collectMotor.setPower(0);
+ 
+         // Set all motors to run with encoders.
+         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armDrive.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode;\n\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\nimport com.qualcomm.robotcore.eventloop.opmode.Disabled;\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\nimport com.qualcomm.robotcore.hardware.DcMotor;\nimport com.qualcomm.robotcore.util.ElapsedTime;\nimport com.qualcomm.robotcore.util.Range;\n\n/**\n * This file is a basic auto op template\n * The code is structured as a LinearOpMode\n **/\n\n@Autonomous(name=\"armDrive\", group=\"Examples\")\n@Disabled\n\npublic class armDrive extends LinearOpMode {\n    private ElapsedTime runtime = new ElapsedTime();\n    EncoderHMap robot = new EncoderHMap();\n\n    @Override\n    public void runOpMode(){\n        robot.init(hardwareMap);\n\n        robot.rightMotor.setDirection(DcMotor.Direction.REVERSE);\n\n        telemetry.addData(\"Status\", \"Initialized\");\n        telemetry.update();\n\n        waitForStart();\n        runtime.reset();\n\n        while(opModeIsActive()){\n\n        }\n    }\n    public void armMove(int degrees){\n        double ticks = (degrees/360.0)*537.6;\n        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);\n        int targetPos = robot.armMotor.getTargetPosition()+(int)ticks;\n        robot.armMotor.setTargetPosition(targetPos);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armDrive.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armDrive.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armDrive.java	(revision 8107084bde67f67f24cf2c81aa92a5e351aa7aec)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armDrive.java	(date 1638126532500)
+@@ -8,11 +8,6 @@
+ import com.qualcomm.robotcore.util.ElapsedTime;
+ import com.qualcomm.robotcore.util.Range;
+ 
+-/**
+- * This file is a basic auto op template
+- * The code is structured as a LinearOpMode
+- **/
+-
+ @Autonomous(name="armDrive", group="Examples")
+ @Disabled
+ 
+@@ -31,15 +26,74 @@
+ 
+         waitForStart();
+         runtime.reset();
+-
+-        while(opModeIsActive()){
+-
+-        }
+-    }
+-    public void armMove(int degrees){
+-        double ticks = (degrees/360.0)*537.6;
+-        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+-        int targetPos = robot.armMotor.getTargetPosition()+(int)ticks;
+-        robot.armMotor.setTargetPosition(targetPos);
++            robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
++            runCollectMotor(2.5, true);
++            runCollectMotor(2.5, false);
++            armSet(1);
++            armSet(2);
++            armSet(3);
++            armSet(4);
++    }
++    public void runCollectMotor(double time, boolean deposit) {
++        runtime.reset();
++        if(deposit) {
++            while(opModeIsActive()&&runtime.seconds()<time) { //run motor at reversed power 1 for input time
++                robot.collectMotor.setPower(-1);
++                telemetry.addData("Status", "Deposit motor running");
++                telemetry.update();
++            }
++        } else {
++            while (opModeIsActive() && runtime.seconds() < time) { //run motor at power 1 for input time
++                robot.collectMotor.setPower(1);
++                telemetry.addData("Status", "Collect motor running");
++                telemetry.update();
++            }
++            robot.collectMotor.setPower(0);
++        }
++    }
++    public void armMove(double degrees){
++        double ticks = (degrees/360.0)*288;
++        robot.armMotor.setTargetPosition((int)ticks);
++        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
++        robot.armMotor.setPower(1);
++        while(robot.armMotor.isBusy()) {
++            //Nothing needed here
++        }
++        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
++        robot.armMotor.setPower(0);
++    }
++    public void armSet(int Setting){
++        switch(Setting) {
++            case 1:
++                armMove(120); //1st level
++                telemetry.addData("Status", "Arm motor to first level");
++                telemetry.update();
++                runCollectMotor(2.5, true); //Run the collecting motor for 2.5 seconds to deposit
++                break;
++            case 2:
++                armMove(135); //2nd level
++                telemetry.addData("Status", "Arm motor to second level");
++                telemetry.update();
++                runCollectMotor(2.5, true); //Run the collecting motor for 2.5 seconds to deposit
++                break;
++            case 3:
++                armMove(150); //3rd level
++                telemetry.addData("Status", "Arm motor to third level");
++                telemetry.update();
++                runCollectMotor(2.5, true); //Run the collecting motor for 2.5 seconds to deposit
++                break;
++            case 4:
++                armMove(-10); //Collecting position
++                telemetry.addData("Status", "Arm motor to collect position");
++                telemetry.update();
++                runCollectMotor(2.5, false); //Run the collecting motor for 2.5 seconds to collect
++                break;
++            case 5:
++                //Nothing needed here, this is the case for the resting position
++                break;
++        }
++        armMove(0); //Resting position
++        telemetry.addData("Status", "Arm motor to resting position");
++        telemetry.update();
+     }
+ }
+\ No newline at end of file

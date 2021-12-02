@@ -1,0 +1,26 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armFunc.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode;\n\nimport com.qualcomm.robotcore.hardware.DcMotor;\nimport com.qualcomm.robotcore.util.ElapsedTime;\n\npublic class armFunc {\n    private ElapsedTime runtime = new ElapsedTime();\n    EncoderHMap robot = new EncoderHMap();\n    public void runIntakeMotor(double time, boolean deposit) {\n        runtime.reset();\n        if(deposit) {\n            while(runtime.seconds() < time) {\n                robot.intakeMotor.setPower(-1);\n            }\n        } else {\n            while(runtime.seconds() < time) {\n                robot.intakeMotor.setPower(1);\n            }\n        }\n    }\n    public void armMove(int degrees) {\n        double ticks = (degrees/360.0)*288;\n        robot.armMotor.setTargetPosition((int)ticks);\n        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);\n        robot.armMotor.setPower(1);\n        while(robot.armMotor.isBusy()) {\n            //Nothing needed here\n        }\n        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);\n        robot.armMotor.setPower(0);\n    }\n    public void armSet(int Setting) {\n        switch(Setting) {\n            case 1:\n                armMove(120); //1st level\n                runIntakeMotor(2.5, true);\n                break;\n            case 2:\n                armMove(135); //2nd level\n                runIntakeMotor(2.5, true);\n                break;\n            case 3:\n                armMove(150); //3rd level\n                runIntakeMotor(2.5, true);\n                break;\n            case 4:\n                armMove(-10); //Collecting\n                runIntakeMotor(2.5, false);\n                break;\n            case 5: //Neutral\n                break;\n        }\n        armMove(0); //Resting position\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armFunc.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armFunc.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armFunc.java	
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/armFunc.java	
+@@ -28,6 +28,7 @@
+         }
+         robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+         robot.armMotor.setPower(0);
++
+     }
+     public void armSet(int Setting) {
+         switch(Setting) {
+@@ -35,6 +36,7 @@
+                 armMove(120); //1st level
+                 runIntakeMotor(2.5, true);
+                 break;
++
+             case 2:
+                 armMove(135); //2nd level
+                 runIntakeMotor(2.5, true);
