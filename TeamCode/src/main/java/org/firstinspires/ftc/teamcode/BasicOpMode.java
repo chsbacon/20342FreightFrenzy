@@ -42,19 +42,17 @@ public class BasicOpMode extends LinearOpMode{
         telemetry.addData("Carousel", "Complete");
     }
 
-     public void runIntakeMotor(double time, boolean deposit) {
-        if(deposit) {
-            robot.intakeMotor.setPower(-1);
-            sleep(time);
-        } else {
-            robot.intakeMotor.setPower(1);
-            sleep(time);
-        }
+     public void runIntakeMotor(int time, boolean deposit) {
+        if(deposit) robot.intakeMotor.setPower(-0.6);
+        else robot.intakeMotor.setPower(1); //collect
+
+        sleep(time);
+        robot.intakeMotor.setPower(0);
     }
-    
+
     public void armMove(int degrees) {
-        double ticks = (degrees/360.0)*288.0*(45.0/125.0);
-        robot.armMotor.setTargetPosition(ticks);
+        double ticks = ((degrees-10)/360.0)*288.0*(45.0/125.0);
+        robot.armMotor.setTargetPosition((int)ticks);
         robot.armMotor.setPower(1);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -63,25 +61,25 @@ public class BasicOpMode extends LinearOpMode{
         robot.armMotor.setPower(0);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-    
+
     public void armSet(int Setting) {
         robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         switch(Setting) {
             case 1:
-                armMove(120); //1st level
-                //runIntakeMotor(2.5, true);
+                armMove(-90); //1st level
+                //runIntakeMotor(2000, true);
                 break;
             case 2:
-                armMove(135); //2nd level
-                //runIntakeMotor(2.5, true);
+                armMove(90); //2nd level
+                //runIntakeMotor(2000, true);
                 break;
             case 3:
                 armMove(10); //3rd level
-                //runIntakeMotor(2.5, true);
+                //runIntakeMotor(2000, true);
                 break;
             case 4:
                 armMove(-10); //Collecting
-                //runIntakeMotor(2.5, false);
+                //runIntakeMotor(0500, false);
                 break;
             case 5: //Neutral
                 break;
