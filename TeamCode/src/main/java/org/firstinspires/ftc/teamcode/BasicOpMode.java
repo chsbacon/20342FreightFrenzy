@@ -53,17 +53,24 @@ public class BasicOpMode extends LinearOpMode{
     public void armMove(int degrees) {
         double ticks = ((degrees-10)/360.0)*288.0*(45.0/125.0);
         robot.armMotor.setTargetPosition((int)ticks);
+        robot.armMotor2.setTargetPosition((int)ticks);
         robot.armMotor.setPower(1);
+        robot.armMotor2.setPower(1);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(robot.armMotor.isBusy()) {
         }
         robot.armMotor.setPower(0);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.armMotor2.setPower(0);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void armSet(int Setting) {
         robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         switch(Setting) {
             case 1:
                 armMove(-90); //1st level
