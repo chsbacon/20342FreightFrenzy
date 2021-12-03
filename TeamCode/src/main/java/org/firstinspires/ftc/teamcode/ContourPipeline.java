@@ -1,3 +1,5 @@
+
+
 package org.firstinspires.ftc.teamcode;
 
 import org.opencv.core.Core;
@@ -38,8 +40,8 @@ public class ContourPipeline extends OpenCvPipeline
     private int borderTopY    = 0;   //amount of pixels from the top of the cam to skip
     private int borderBottomY = 0;   //amount of pixels from the bottom of the cam to skip
 
-    private int CAMERA_WIDTH = 640;
-    private int CAMERA_HEIGHT = 360;
+    private int CAMERA_WIDTH = 1920;
+    private int CAMERA_HEIGHT = 1080;
 
     private int loopcounter = 0;
     private int ploopcounter = 0;
