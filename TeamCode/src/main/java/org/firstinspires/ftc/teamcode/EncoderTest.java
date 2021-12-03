@@ -48,10 +48,10 @@ public class EncoderTest extends LinearOpMode{
 
         while(opModeIsActive()){
             if(gamepad1.a){
-                encoderDrive(DRIVE_SPEED,  17.5,  17.5, 20.0);
+                encoderDrive(DRIVE_SPEED,  20,  20, 20.0);
             }
             else if(gamepad1.b){
-                encoderDrive(DRIVE_SPEED,  7.5,  7.5, 10.0);
+                encoderDrive(DRIVE_SPEED,  10,  10, 10.0);
             }
             else if(gamepad1.x){
                 encoderDrive(DRIVE_SPEED,  1,  1, 10.0);
@@ -78,15 +78,15 @@ public class EncoderTest extends LinearOpMode{
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
+        leftInches -= 2.4;
+        rightInches -= 2.4;
 
         // Ensure that the opmode is still active
         if (!opModeIsActive()) return;
 
         // Determine new target position, and pass to motor controller
-        newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH * CORRECTION) ;
-        newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH * CORRECTION);
+        int newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH * CORRECTION) ;
+        int newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH * CORRECTION);
         robot.leftMotor.setTargetPosition(newLeftTarget);
         robot.rightMotor.setTargetPosition(newRightTarget);
 
