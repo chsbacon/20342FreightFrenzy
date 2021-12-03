@@ -72,12 +72,12 @@ public class TeleOpHold extends TeleBasicOpMode{
 
             //deposit
             if(gamepad1.left_bumper && !depositChanged) {
-                robot.intakeMotor.setPower(1);
-                collectChanged = true;
+                robot.intakeMotor.setPower(-0.6);
+                depositChanged = true;
             }
             else if(!gamepad1.right_bumper){
                 robot.intakeMotor.setPower(0);
-                collectChanged = false;
+                depositChanged = false;
             }
 
             //carousel
