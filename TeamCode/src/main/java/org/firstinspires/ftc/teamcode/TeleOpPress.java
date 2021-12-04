@@ -21,7 +21,6 @@ public class TeleOpPress extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
-        double drive, turn, leftPower, rightPower;
         boolean armFChanged = false, depositChanged = false, collectChanged = false, armBChanged = false;
 
         robot.init(hardwareMap);
@@ -34,19 +33,27 @@ public class TeleOpPress extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            driveJoysticks();
+            double drive = -gamepad1.left_stick_y;
+            double turn  =  gamepad1.right_stick_x;
+            double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+            double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+            robot.leftMotor.setPower(leftPower);
+            robot.rightMotor.setPower(rightPower);
 
             //arm forward
             if (gamepad1.b) {
                 if(!armFChanged){
                     robot.armMotor.setPower(-1);
                     robot.armMotor2.setPower(-1);
+                    armFChanged = true;
                 }
                 else if(armFChanged){
                     robot.armMotor.setPower(0);
                     robot.armMotor2.setPower(0);
+                    armFChanged = false;
                 }
-                armFChanged = !armFChanged;
+
             }
 
             //arm backward
@@ -54,40 +61,43 @@ public class TeleOpPress extends TeleBasicOpMode{
                 if(!armBChanged){
                     robot.armMotor.setPower(1);
                     robot.armMotor2.setPower(1);
+                    armBChanged = true;
                 }
                 else if(armBChanged){
                     robot.armMotor.setPower(0);
                     robot.armMotor2.setPower(0);
+                    armBChanged = false;
                 }
-                armBChanged = !armBChanged;
             }
 
             //collector
             if (gamepad1.right_bumper) {
                 if(!collectChanged){
-                    robot.intakeMotor.setPower(1);
+                    robot.intakeMotor.setPower(0.6);
+                    collectChanged = true;
                 }
                 else if(collectChanged){
                     robot.intakeMotor.setPower(0);
+                    collectChanged = false;
                 }
-                collectChanged = !collectChanged;
             }
 
             //deposit
             if (gamepad1.left_bumper) {
                 if(!depositChanged){
-                    robot.intakeMotor.setPower(-0.6);
+                    robot.intakeMotor.setPower(-1);
+                    depositChanged = true;
                 }
                 else if(depositChanged){
                     robot.intakeMotor.setPower(0);
+                    depositChanged = false;
                 }
-                depositChanged = !depositChanged;
             }
 
             //carousel
-            if(gamepad1.dpad_up){
+            /*if(gamepad1.dpad_up){
                 runCarousel();
-            }
+            }*/
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();

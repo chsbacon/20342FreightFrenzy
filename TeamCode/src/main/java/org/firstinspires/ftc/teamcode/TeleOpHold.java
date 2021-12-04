@@ -21,8 +21,8 @@ public class TeleOpHold extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
-        double drive, turn, leftPower, rightPower;
-        boolean armFChanged = false, depositChanged = false, collectChanged = false, armBChanged = false;
+        boolean armFMoving = false, armBMoving = false;
+        boolean depositMoving = false, collectMoving = false;
 
         robot.init(hardwareMap);
 
@@ -34,50 +34,56 @@ public class TeleOpHold extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            driveJoysticks();
+            double drive = -gamepad1.left_stick_y;
+            double turn  =  gamepad1.right_stick_x;
+            double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+            double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+
+            robot.leftMotor.setPower(leftPower);
+            robot.rightMotor.setPower(rightPower);
 
             //arm forward
-            if (gamepad1.b && !armFChanged) {
+            if (gamepad1.b && !armFMoving) {
                 robot.armMotor.setPower(-1);
                 robot.armMotor2.setPower(-1);
-                armFChanged = true;
+                armFMoving = true;
             }
-            else if(!gamepad1.b){
+            else if(!gamepad1.b && armFMoving){
                 robot.armMotor.setPower(0);
                 robot.armMotor2.setPower(0);
-                armFChanged = false;
+                armFMoving = false;
             }
 
             //arm backward
-            if (gamepad1.x && !armBChanged) {
+            if (gamepad1.x && !armBMoving) {
                 robot.armMotor.setPower(1);
                 robot.armMotor2.setPower(1);
-                armBChanged = true;
+                armBMoving = true;
             }
-            else if(!gamepad1.x){
+            else if(!gamepad1.x && armBMoving){
                 robot.armMotor.setPower(0);
                 robot.armMotor2.setPower(0);
-                armBChanged = false;
+                armBMoving = false;
             }
 
             //collector
-            if(gamepad1.right_bumper && !collectChanged) {
-                robot.intakeMotor.setPower(1);
-                collectChanged = true;
+            if(gamepad1.right_bumper && !collectMoving) {
+                robot.intakeMotor.setPower(0.6);
+                collectMoving = true;
             }
-            else if(!gamepad1.right_bumper){
+            else if(!gamepad1.right_bumper && collectMoving){
                 robot.intakeMotor.setPower(0);
-                collectChanged = false;
+                collectMoving = false;
             }
 
             //deposit
-            if(gamepad1.left_bumper && !depositChanged) {
-                robot.intakeMotor.setPower(-0.6);
-                depositChanged = true;
+            if(gamepad1.left_bumper && !depositMoving) {
+                robot.intakeMotor.setPower(-1);
+                depositMoving = true;
             }
-            else if(!gamepad1.right_bumper){
+            else if(!gamepad1.left_bumper && depositMoving){
                 robot.intakeMotor.setPower(0);
-                depositChanged = false;
+                depositMoving = false;
             }
 
             //carousel
