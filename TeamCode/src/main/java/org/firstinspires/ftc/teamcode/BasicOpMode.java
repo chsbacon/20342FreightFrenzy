@@ -31,14 +31,6 @@ public class BasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     EncoderHMap robot = new EncoderHMap();
 
-    static final double     COUNTS_PER_MOTOR_REV = 537.6;
-    static final double     DRIVE_GEAR_REDUCTION = 60.0/72.0;   // output (wheel) speed / input (motor) speed
-    static final double     WHEEL_DIAMETER_INCHES = 5.0;
-    static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.3;
-    static final double CORRECTION = 1;
-
     @Override
     public void runOpMode(){}
 
@@ -50,12 +42,11 @@ public class BasicOpMode extends LinearOpMode{
         telemetry.addData("Carousel", "Complete");
     }
 
-    public void runIntakeMotor(double time, boolean deposit) {
-        int timeMS = (int) (time*1000);
+     public void runIntakeMotor(int time, boolean deposit) {
         if(deposit) robot.intakeMotor.setPower(-0.6);
         else robot.intakeMotor.setPower(1); //collect
 
-        sleep(timeMS);
+        sleep(time);
         robot.intakeMotor.setPower(0);
     }
 
@@ -82,70 +73,24 @@ public class BasicOpMode extends LinearOpMode{
 
         switch(Setting) {
             case 1:
-                armMove(-90); //1st level
-                //runIntakeMotor(2000, true);
+                armMove(-200); //1st level
+                runIntakeMotor(2000, true);
                 break;
             case 2:
-                armMove(90); //2nd level
-                //runIntakeMotor(2000, true);
+                armMove(-210); //2nd level
+                runIntakeMotor(2000, true);
                 break;
             case 3:
-                armMove(10); //3rd level
-                //runIntakeMotor(2000, true);
+                armMove(-230); //3rd level
+                runIntakeMotor(2000, true);
                 break;
             case 4:
                 armMove(-10); //Collecting
-                //runIntakeMotor(0500, false);
+                runIntakeMotor(0500, false);
                 break;
             case 5: //Neutral
                 break;
         }
-        //armMove(0); //Resting position
-    }
-
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
-        leftInches -= 2.4;
-        rightInches -= 2.4;
-
-        // Ensure that the opmode is still active
-        if (!opModeIsActive()) return;
-
-        // Determine new target position, and pass to motor controller
-        int newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH * CORRECTION) ;
-        int newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH * CORRECTION);
-        robot.leftMotor.setTargetPosition(newLeftTarget);
-        robot.rightMotor.setTargetPosition(newRightTarget);
-
-        // Turn On RUN_TO_POSITION
-        robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        runtime.reset();
-        robot.leftMotor.setPower(Math.abs(speed));
-        robot.rightMotor.setPower(Math.abs(speed));
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        while (opModeIsActive() &&
-                (runtime.seconds() < timeoutS) &&
-                (robot.leftMotor.isBusy() && robot.rightMotor.isBusy())) {
-            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    robot.leftMotor.getCurrentPosition(),
-                    robot.rightMotor.getCurrentPosition());
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        robot.leftMotor.setPower(0);
-        robot.rightMotor.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        sleep(250);   // optional pause after each move
+        armMove(-25); //Resting position
     }
 }
