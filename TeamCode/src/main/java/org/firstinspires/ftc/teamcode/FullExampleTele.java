@@ -29,56 +29,56 @@ import java.util.concurrent.TimeUnit;
 import java.util.Locale;
 
 
-@TeleOp(name = "ExampleFileOnPhone", group = "Opmode")
+@TeleOp(name = "FullExampleTele", group = "Opmode")
 @Disabled
 
 
 
 // Extends LinearOpMode means the code will execute chronologically
-public class ExampleTeleOp extends LinearOpMode {
+public class FullExampleTele extends LinearOpMode {
 
-    // creates an instance of your hardware map, called "robot" 
+    // creates an instance of your hardware map, called "robot"
     // The hardware map is where all the phone connection and device setup stuff goes
     EncoderHMap robot = new EncoderHMap();
-    private ElapsedTime runtime = new ElapsedTime(); 
-    
+    private ElapsedTime runtime = new ElapsedTime();
+
     //when the init button is pressed, run the stuff in runOpMode
     @Override
     public void runOpMode() {
 
         robot.init(hardwareMap);  //initializes the hardware map
         double x, y, r;           //example variables
-        
+
         //send data to driver station that OpMode is initialized
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        
-        
-        
+
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        
+
         // when the game is live -- when the robot is free to be driven -- when the driver has pressed play
         // This is where like 90% of your code will go
         while (opModeIsActive()) {
-            
+
             // Driving with POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive        = -gamepad1.left_stick_y;
             double turn         =  gamepad1.right_stick_x;
             double leftPower    =  Range.clip(drive + turn, -1.0, 1.0) ;
             double rightPower   =  Range.clip(drive - turn, -1.0, 1.0) ;
-            
-            
+
+
             //example if statement: send calculated power to wheels
             if (gamepad1.a) {
                 sleep(250);
                 robot.leftMotor.setPower(leftPower);
                 robot.rightMotor.setPower(rightPower);
             }
-            //you should have a bunch of if/else if statements for each button on controller 
-            
+            //you should have a bunch of if/else if statements for each button on controller
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);

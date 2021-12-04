@@ -13,12 +13,11 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="ExampleAuto", group="Examples")
-@Disabled
+@Autonomous(name="Leg1Auto", group="Autonomous")
+//@Disabled
 
-public class ExampleAuto extends LinearOpMode {
+public class Leg1Auto extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    EncoderHMap robot = new EncoderHMap();
 
     @Override
     public void runOpMode(){
@@ -27,7 +26,16 @@ public class ExampleAuto extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+
         waitForStart();
         runtime.reset();
+
+        encoderDrive(.3, 14,14, 19);
+        encoderDrive(.3, 17,-17,19);
+        encoderDrive(.3, -14,-14, 19);
+        encoderDrive(.3, -10,10, 19);
+
+        runCarousel();
+
     }
 }

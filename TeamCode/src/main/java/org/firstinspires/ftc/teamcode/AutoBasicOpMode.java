@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode;
 
 import android.app.Activity;
@@ -27,7 +28,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
 
-public class BasicOpMode extends LinearOpMode{
+public class AutoBasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     EncoderHMap robot = new EncoderHMap();
 
@@ -37,30 +38,30 @@ public class BasicOpMode extends LinearOpMode{
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.3;
+    static final double TURN_SPEED = 0.2;
     static final double CORRECTION = 1;
 
     @Override
     public void runOpMode(){}
 
     public void runCarousel() {
-        robot.carouselMotor.setPower(0.2);
-        sleep(2000);
+        robot.carouselMotor.setPower(0.185);
+        sleep(1600);
         robot.carouselMotor.setPower(0);
 
         telemetry.addData("Carousel", "Complete");
     }
 
-    public void runIntakeMotor(double time, boolean deposit) {
-        int timeMS = (int) (time*1000);
+    public void runIntakeMotor(int time, boolean deposit) {
         if(deposit) robot.intakeMotor.setPower(-0.6);
         else robot.intakeMotor.setPower(1); //collect
 
-        sleep(timeMS);
+        sleep(time);
         robot.intakeMotor.setPower(0);
     }
 
     public void armMove(int degrees) {
-        double ticks = ((degrees-10)/360.0)*288.0*(45.0/125.0);
+        double ticks = ((degrees-10)/360.0)*288.0*(125.0/40.0);
         robot.armMotor.setTargetPosition((int)ticks);
         robot.armMotor2.setTargetPosition((int)ticks);
         robot.armMotor.setPower(1);
@@ -77,30 +78,27 @@ public class BasicOpMode extends LinearOpMode{
     }
 
     public void armSet(int Setting) {
-        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         switch(Setting) {
             case 1:
-                armMove(-90); //1st level
-                //runIntakeMotor(2000, true);
+                armMove(200); //1st level
+                runIntakeMotor(2000, true);
                 break;
             case 2:
-                armMove(90); //2nd level
-                //runIntakeMotor(2000, true);
+                armMove(210); //2nd level
+                runIntakeMotor(2000, true);
                 break;
             case 3:
-                armMove(10); //3rd level
-                //runIntakeMotor(2000, true);
+                armMove(230); //3rd level
+                runIntakeMotor(2000, true);
                 break;
             case 4:
-                armMove(-10); //Collecting
-                //runIntakeMotor(0500, false);
+                armMove(10); //Collecting
+                runIntakeMotor(0500, false);
                 break;
             case 5: //Neutral
                 break;
         }
-        //armMove(0); //Resting position
+        armMove(-25); //Resting position
     }
 
     public void encoderDrive(double speed,
@@ -145,7 +143,5 @@ public class BasicOpMode extends LinearOpMode{
         // Turn off RUN_TO_POSITION
         robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        sleep(250);   // optional pause after each move
     }
 }

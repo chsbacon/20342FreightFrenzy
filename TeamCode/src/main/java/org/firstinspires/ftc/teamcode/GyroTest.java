@@ -79,21 +79,10 @@ public class GyroTest extends LinearOpMode {
             // one place with time passing between those places. See the lesson on
             // Timing Considerations to know why.
 
-            if (gamepad1.a || gamepad1.b) {
-                // backup.
-                robot.leftMotor.setPower(power);
-                robot.rightMotor.setPower(power);
-
-                sleep(500);
-
-                // stop.
-                robot.leftMotor.setPower(0);
-                robot.rightMotor.setPower(0);
 
                 // turn 90 degrees right (a) or left(b)
-                if (gamepad1.a) rotate(-90, power);
-                if (gamepad1.b) rotate(90, power);
-            }
+            if (gamepad1.a) rotate(-90, power);
+            if (gamepad1.b) rotate(90, power);
         }
 
         // turn the motors off.
@@ -195,6 +184,8 @@ public class GyroTest extends LinearOpMode {
             }
         } else    // left turn.
             while (opModeIsActive() && getAngle() < degrees) {
+                telemetry.addData("Angle", getAngle());
+                telemetry.update();
             }
 
         // turn the motors off.

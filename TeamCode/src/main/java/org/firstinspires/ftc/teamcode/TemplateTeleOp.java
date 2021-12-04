@@ -13,10 +13,10 @@ import com.qualcomm.robotcore.util.Range;
  * This code is structured as a Linear OpMode
  **/
 
-@TeleOp(name = "TeleDrive", group = "Examples")
+@TeleOp(name = "TemplateTeleOp", group = "Examples")
 //@Disabled
 
-public class TeleDrive extends LinearOpMode{
+public class TemplateTeleOp extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     EncoderHMap robot = new EncoderHMap();
 
@@ -39,10 +39,10 @@ public class TeleDrive extends LinearOpMode{
 
             robot.leftMotor.setPower(leftPower);
             robot.rightMotor.setPower(rightPower);
-            
+
             if(gamepad1.a){
             }
-            
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();

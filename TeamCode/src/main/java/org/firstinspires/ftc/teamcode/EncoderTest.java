@@ -48,13 +48,13 @@ public class EncoderTest extends LinearOpMode{
 
         while(opModeIsActive()){
             if(gamepad1.a){
-                encoderDrive(DRIVE_SPEED,  20,  20, 20.0);
+                encoderDrive(DRIVE_SPEED,  17.4,  -17.4, 20.0);
             }
             else if(gamepad1.b){
-                encoderDrive(DRIVE_SPEED,  10,  10, 10.0);
+                encoderDrive(DRIVE_SPEED,  17.3,  -17.3, 10.0);
             }
             else if(gamepad1.x){
-                encoderDrive(DRIVE_SPEED,  1,  1, 10.0);
+                encoderDrive(DRIVE_SPEED,  17,  -17, 10.0);
             }
 
             telemetry.addData("Robot at ",  " %7d :%7d",
