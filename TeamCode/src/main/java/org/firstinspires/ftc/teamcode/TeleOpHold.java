@@ -44,8 +44,8 @@ public class TeleOpHold extends TeleBasicOpMode{
 
             //arm forward
             if (gamepad1.b && !armFMoving) {
-                robot.armMotor.setPower(-1);
-                robot.armMotor2.setPower(-1);
+                robot.armMotor.setPower(-0.5);
+                robot.armMotor2.setPower(-0.5);
                 armFMoving = true;
             }
             else if(!gamepad1.b && armFMoving){
@@ -56,8 +56,8 @@ public class TeleOpHold extends TeleBasicOpMode{
 
             //arm backward
             if (gamepad1.x && !armBMoving) {
-                robot.armMotor.setPower(1);
-                robot.armMotor2.setPower(1);
+                robot.armMotor.setPower(0.5);
+                robot.armMotor2.setPower(0.5);
                 armBMoving = true;
             }
             else if(!gamepad1.x && armBMoving){
