@@ -39,8 +39,6 @@ public class TeleOpHold extends TeleBasicOpMode{
             double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
-            robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.armMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.leftMotor.setPower(leftPower);
             robot.rightMotor.setPower(rightPower);
 

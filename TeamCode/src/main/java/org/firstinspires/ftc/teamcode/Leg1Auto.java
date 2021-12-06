@@ -30,12 +30,13 @@ public class Leg1Auto extends AutoBasicOpMode {
         waitForStart();
         runtime.reset();
 
+        armMove(90);
         encoderDrive(.3, 14,14, 19);
-        encoderDrive(.3, 17,-17,19);
+        encoderDrive(.3, 16.7,-16.7,19);
         encoderDrive(.3, -14,-14, 19);
-        encoderDrive(.3, -10,10, 19);
+        encoderDrive(.3, -12,12, 19);
+        encoderDrive(.3, -7.6,-7.6, 19);
 
         runCarousel();
-
     }
 }

@@ -44,36 +44,37 @@ public class TeleBasicOpMode extends LinearOpMode{
         robot.rightMotor.setPower(rightPower);
     }
 
-    public void wait(double time){
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < time){
-            driveJoysticks();
-        }
-    }
-
     public void runCarousel() {
         robot.carouselMotor.setPower(0.2);
-        sleep(1600);
+        sleep(1900);
         robot.carouselMotor.setPower(0);
 
         telemetry.addData("Carousel", "Complete");
         telemetry.update();
     }
 
-    public void runIntakeMotor(double time, boolean deposit) {
-        int timeMS = (int) (time*1000);
+    public void armMove(int degrees) {
+        double ticks = ((degrees-60)/360.0)*288.0*(125.0/40.0);
+        robot.armMotor.setTargetPosition((int)ticks);
+        robot.armMotor2.setTargetPosition((int)ticks);
+        robot.armMotor.setPower(1);
+        robot.armMotor2.setPower(1);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while(robot.armMotor.isBusy()) {
+        }
+        robot.armMotor.setPower(0);
+        robot.armMotor2.setPower(0);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void runIntakeMotor(int time, boolean deposit) {
         if(deposit) robot.intakeMotor.setPower(-0.6);
         else robot.intakeMotor.setPower(1); //collect
 
-        sleep(timeMS);
+        sleep(time);
         robot.intakeMotor.setPower(0);
-    }
-
-    public void armMove(double time) {
-        robot.armMotor.setPower(1);
-        robot.armMotor2.setPower(1);
-        wait(time);
-        robot.armMotor.setPower(0);
-        robot.armMotor2.setPower(0);
     }
 }

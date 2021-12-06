@@ -52,6 +52,8 @@ public class TeleOpArmTest extends AutoBasicOpMode {
         telemetry.update();
 
 
+        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

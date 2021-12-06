@@ -30,8 +30,15 @@ public class Leg2Auto extends AutoBasicOpMode {
         waitForStart();
         runtime.reset();
 
-        encoderDrive(.3, 36, 36, 19);
-        encoderDrive(.3, 10, -10, 19);
-        encoderDrive( .3, 14, 14, 19);
+        encoderDrive(.3, 7, 7, 19);
+        encoderDrive(.3, 12, -12, 19);
+        encoderDrive( .3, 40, 40, 19);
+        encoderDrive( .3, -16.7, 16.7, 19);
+        armMove(120);
+        runIntakeMotor(2000, true);
+        encoderDrive( .3, 16.7, -16.7, 19);
+        encoderDrive(.5, 65, 65, 30);
+
+
     }
 }
