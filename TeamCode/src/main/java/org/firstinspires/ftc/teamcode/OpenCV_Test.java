@@ -21,8 +21,8 @@ public class OpenCV_Test extends LinearOpMode {
     private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
 
-    double CrLowerUpdate = 150;
-    double CbLowerUpdate = 120;
+    double CrLowerUpdate = 40;
+    double CbLowerUpdate = 160;
     double CrUpperUpdate = 255;
     double CbUpperUpdate = 255;
 
@@ -71,25 +71,23 @@ public class OpenCV_Test extends LinearOpMode {
 
         while (opModeIsActive())
         {
-            telemetry.addData("OP", "GOING");
-            telemetry.update();
 
             if(myPipeline.error){
                 telemetry.addData("Exception: ", myPipeline.debug);
             }
             // Only use this line of the code when you want to find the lower and upper values, using Ftc Dashboard (https://acmerobotics.github.io/ftc-dashboard/gettingstarted)
-            //testing(myPipeline);
+            testing(myPipeline);
 
             // Watch our YouTube Tutorial for the better explanation
 
-            telemetry.addData("RectArea: ", myPipeline.getRectArea());
+            telemetry.addData("RectMidpoint: ", myPipeline.getRectMidpointX());
             telemetry.update();
 
             if(myPipeline.getRectArea() > 2000){
-                if(myPipeline.getRectMidpointX() > 400){
+                if(myPipeline.getRectMidpointX() > 1280){
                     AUTONOMOUS_C();
                 }
-                else if(myPipeline.getRectMidpointX() > 200){
+                else if(myPipeline.getRectMidpointX() > 640){
                     AUTONOMOUS_B();
                 }
                 else {

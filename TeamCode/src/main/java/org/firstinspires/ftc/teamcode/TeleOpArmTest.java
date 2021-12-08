@@ -29,7 +29,7 @@ import java.util.Locale;
 
 
 @TeleOp(name = "TeleOpArmTest", group = "Opmode")
-//@Disabled
+@Disabled
 
 
 

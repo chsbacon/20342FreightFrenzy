@@ -73,25 +73,33 @@ public class ArmTest extends LinearOpMode {
                 ticks -= 10;
                 armMove(ticks);
             }
-            //robot.leftMotor.setPower(leftPower);
-            //robot.rightMotor.setPower(rightPower);
-            
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("ArmMotor", "ticks: ", robot.armMotor.getTargetPosition());
-            telemetry.update();
+            robot.leftMotor.setPower(leftPower);
+            robot.rightMotor.setPower(rightPower);
+
+
         }
 
     } //where the runOpMode ends
 
     public void armMove(int myTicks){
+        double degrees = (40.0*360.0*myTicks)/(288.0*125.0);
+        telemetry.addData("ArmMotor", "ticks: ", myTicks);
+        telemetry.addData("ArmMotor", "degrees: ", degrees);
+        telemetry.update();
+
         robot.armMotor.setTargetPosition(myTicks);
+        robot.armMotor2.setTargetPosition(myTicks);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotor.setPower(0.75);
+        robot.armMotor2.setPower(0.75);
 
         while(robot.armMotor.isBusy()){
         }
         robot.armMotor.setPower(0);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.armMotor2.setPower(0);
+        robot.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 }

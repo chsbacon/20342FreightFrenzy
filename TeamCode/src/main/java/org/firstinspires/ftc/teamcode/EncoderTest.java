@@ -48,10 +48,10 @@ public class EncoderTest extends LinearOpMode{
 
         while(opModeIsActive()){
             if(gamepad1.a){
-                encoderDrive(DRIVE_SPEED,  17.4,  -17.4, 20.0);
+                encoderDrive2(DRIVE_SPEED,  20,  -20);
             }
             else if(gamepad1.b){
-                encoderDrive(DRIVE_SPEED,  17.3,  -17.3, 10.0);
+                encoderDrive(DRIVE_SPEED,  17.4,  -17.4, 10.0);
             }
             else if(gamepad1.x){
                 encoderDrive(DRIVE_SPEED,  17,  -17, 10.0);
@@ -119,6 +119,45 @@ public class EncoderTest extends LinearOpMode{
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         sleep(250);   // optional pause after each move
+    }
+
+    public void encoderDrive2(double speed,
+                             double leftInches, double rightInches) {
+        // Ensure that the opmode is still active
+        if (!opModeIsActive()) return;
+
+        // Determine new target position, and pass to motor controller
+        int newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH*1.12) ;
+        int newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH*1.12);
+        robot.leftMotor.setTargetPosition(newLeftTarget);
+        robot.rightMotor.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        runtime.reset();
+        robot.leftMotor.setPower(Math.abs(speed));
+        robot.rightMotor.setPower(Math.abs(speed));
+
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        while (opModeIsActive() &&
+                (robot.leftMotor.isBusy() && robot.rightMotor.isBusy())) {
+            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+            telemetry.addData("Path2",  "Running at %7d :%7d",
+                    robot.leftMotor.getCurrentPosition(),
+                    robot.rightMotor.getCurrentPosition());
+            telemetry.update();
+        }
+
+        // Stop all motion;
+        robot.leftMotor.setPower(0);
+        robot.rightMotor.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 }
