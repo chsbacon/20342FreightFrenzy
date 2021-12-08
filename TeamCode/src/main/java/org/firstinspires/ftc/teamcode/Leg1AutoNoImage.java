@@ -13,10 +13,10 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="Leg1Auto", group="Autonomous")
+@Autonomous(name="Leg1AutoNoImage", group="Autonomous")
 //@Disabled
 
-public class Leg1Auto extends AutoBasicOpMode {
+public class Leg1AutoNoImage extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -30,13 +30,23 @@ public class Leg1Auto extends AutoBasicOpMode {
         waitForStart();
         runtime.reset();
 
-        armMove(90);
-        encoderDrive(.3, 14,14, 19);
-        encoderDrive(.3, 16.7,-16.7,19);
-        encoderDrive(.3, -14,-14, 19);
-        encoderDrive(.3, -12,12, 19);
-        encoderDrive(.3, -7.6,-7.6, 19);
+        armMove(80);
+        encoderDrive(.3, 14,14);
+        encoderDrive(.3, 16.3,-16.3);
+        encoderDrive(.3, -16.3,-16.3);
+        encoderDrive(.3, -13,13);
+        encoderDrive(.3, -6.25,-6.25);
 
         runCarousel();
+
+        encoderDrive(.3, 7, 7);
+        encoderDrive(.3, 13, -13);
+        encoderDrive( .3, 40, 40);
+        encoderDrive( .3, -16.3, 16.3);
+        encoderDrive( .3, 15, 15);
+        armMove(100);
+        runIntakeMotor(2000, true);
+        encoderDrive( .3, 15.2, -15.2);
+        encoderDrive(.5, 53, 53);
     }
 }

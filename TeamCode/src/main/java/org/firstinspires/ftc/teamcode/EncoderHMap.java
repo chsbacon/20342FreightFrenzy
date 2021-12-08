@@ -41,7 +41,7 @@ public class EncoderHMap
         intakeMotor   = hwMap.get(DcMotor.class, "IM");  //P
         
         //Reverse right motor
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); 
+        leftMotor.setDirection(DcMotor.Direction.FORWARD);
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor2.setDirection(DcMotor.Direction.REVERSE);
 
@@ -56,6 +56,8 @@ public class EncoderHMap
         //Stop and reset encoders
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Set motors to run with encoders.
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

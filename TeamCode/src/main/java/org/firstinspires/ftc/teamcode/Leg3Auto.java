@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="Leg3Auto", group="Autonomous")
+@Autonomous(name="Leg2Auto2", group="Autonomous")
 //@Disabled
 
 public class Leg3Auto extends AutoBasicOpMode {
@@ -30,10 +30,16 @@ public class Leg3Auto extends AutoBasicOpMode {
         waitForStart();
         runtime.reset();
 
-        encoderDrive(.3, 17, -17, 19);
-        encoderDrive(.3, 24, 24, 19);
-        encoderDrive( .3, -17, 17, 19);
-        encoderDrive(.3, 72, 72, 19);
+        encoderDrive(.3, 7, 7);
+        encoderDrive(.3, 12, -12);
+        encoderDrive( .3, 40, 40);
+        encoderDrive( .3, -16.5, 16.5);
+        encoderDrive( .3, 14, 14);
+        armMove(10);
+        runIntakeMotor(2000, true);
+        encoderDrive( .3, 16, -16);
+        encoderDrive(.5, 75, 75);
+
 
     }
 }

@@ -47,7 +47,7 @@ public class EncoderAutoDrive extends LinearOpMode{
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  47,  47, 10.0);  // S1: Forward 47 Inches with 10 Sec timeout
+        encoderDrive(DRIVE_SPEED,  47,  47);  // S1: Forward 47 Inches with 10 Sec timeout
         //encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
         //encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
@@ -64,8 +64,7 @@ public class EncoderAutoDrive extends LinearOpMode{
      *  3) Driver stops the opmode running.
      */
     public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
+                             double leftInches, double rightInches) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -89,7 +88,6 @@ public class EncoderAutoDrive extends LinearOpMode{
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         while (opModeIsActive() &&
-                (runtime.seconds() < timeoutS) &&
                 (robot.leftMotor.isBusy() && robot.rightMotor.isBusy())) {
             telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
             telemetry.addData("Path2",  "Running at %7d :%7d",

@@ -23,7 +23,7 @@ public class TeleOpHold extends TeleBasicOpMode{
     public void runOpMode(){
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
-
+        boolean dUpMoving = false, dDownMoving = false, dRightMoving = false, dLeftMoving = false;
         robot.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
@@ -35,7 +35,7 @@ public class TeleOpHold extends TeleBasicOpMode{
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
             double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            double turn  =  gamepad1.right_stick_x*0.8;
             double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
@@ -43,53 +43,102 @@ public class TeleOpHold extends TeleBasicOpMode{
             robot.rightMotor.setPower(rightPower);
 
             //arm forward
-            if (gamepad1.b && !armFMoving) {
+            if (gamepad2.b && !armFMoving) {
                 robot.armMotor.setPower(-0.5);
                 robot.armMotor2.setPower(-0.5);
                 armFMoving = true;
             }
-            else if(!gamepad1.b && armFMoving){
+            else if(!gamepad2.b && armFMoving){
                 robot.armMotor.setPower(0);
                 robot.armMotor2.setPower(0);
                 armFMoving = false;
             }
 
             //arm backward
-            if (gamepad1.x && !armBMoving) {
+            if (gamepad2.x && !armBMoving) {
                 robot.armMotor.setPower(0.5);
                 robot.armMotor2.setPower(0.5);
                 armBMoving = true;
             }
-            else if(!gamepad1.x && armBMoving){
+            else if(!gamepad2.x && armBMoving){
                 robot.armMotor.setPower(0);
                 robot.armMotor2.setPower(0);
                 armBMoving = false;
             }
 
-            //collector
-            if(gamepad1.right_bumper && !collectMoving) {
-                robot.intakeMotor.setPower(0.6);
-                collectMoving = true;
-            }
-            else if(!gamepad1.right_bumper && collectMoving){
-                robot.intakeMotor.setPower(0);
-                collectMoving = false;
-            }
-
             //deposit
-            if(gamepad1.left_bumper && !depositMoving) {
-                robot.intakeMotor.setPower(-1);
+            if(gamepad2.right_bumper && !depositMoving) {
+                robot.intakeMotor.setPower(0.6);
                 depositMoving = true;
             }
-            else if(!gamepad1.left_bumper && depositMoving){
+            else if(!gamepad2.right_bumper && depositMoving){
                 robot.intakeMotor.setPower(0);
                 depositMoving = false;
             }
 
+            //collector
+            if(gamepad2.left_bumper && !collectMoving) {
+                robot.intakeMotor.setPower(-1);
+                collectMoving = true;
+            }
+            else if(!gamepad2.left_bumper && collectMoving){
+                robot.intakeMotor.setPower(0);
+                collectMoving = false;
+            }
+
+            //slow forward
+            if (gamepad1.dpad_up && !dUpMoving) {
+                robot.leftMotor.setPower(0.2);
+                robot.rightMotor.setPower(0.2);
+                dUpMoving = true;
+            }
+            else if(!gamepad1.dpad_up && dUpMoving){
+                robot.leftMotor.setPower(0);
+                robot.rightMotor.setPower(0);
+                dUpMoving = false;
+            }
+
+            //slow backward
+            if (gamepad1.dpad_down && !dDownMoving) {
+                robot.leftMotor.setPower(-0.2);
+                robot.rightMotor.setPower(-0.2);
+                dDownMoving = true;
+            }
+            else if(!gamepad1.dpad_down && dDownMoving){
+                robot.leftMotor.setPower(0);
+                robot.rightMotor.setPower(0);
+                dDownMoving = false;
+            }
+
+            //slow right
+            if (gamepad1.dpad_right && !dRightMoving) {
+                robot.leftMotor.setPower(-0.3);
+                robot.rightMotor.setPower(0.3);
+                dRightMoving = true;
+            }
+            else if(!gamepad1.dpad_right && dRightMoving){
+                robot.leftMotor.setPower(0);
+                robot.rightMotor.setPower(0);
+                dRightMoving = false;
+            }
+
+            //slow left
+            if (gamepad1.dpad_left && !dLeftMoving) {
+                robot.leftMotor.setPower(0.3);
+                robot.rightMotor.setPower(-0.3);
+                dLeftMoving = true;
+            }
+            else if(!gamepad1.dpad_left && dLeftMoving){
+                robot.leftMotor.setPower(0);
+                robot.rightMotor.setPower(0);
+                dLeftMoving = false;
+            }
+
             //carousel
-            if(gamepad1.dpad_up){
+            if(gamepad2.dpad_up){
                 runCarousel();
             }
+            //hold carousel?
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
