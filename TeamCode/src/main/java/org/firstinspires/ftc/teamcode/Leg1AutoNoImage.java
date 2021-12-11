@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
  **/
 
 @Autonomous(name="Leg1AutoNoImage", group="Autonomous")
-//@Disabled
+@Disabled
 
 public class Leg1AutoNoImage extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -22,7 +22,9 @@ public class Leg1AutoNoImage extends AutoBasicOpMode {
     @Override
     public void runOpMode(){
         robot.init(hardwareMap);
-
+        armMove(80);
+        initWebcam();
+        sleep(1000);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -30,23 +32,20 @@ public class Leg1AutoNoImage extends AutoBasicOpMode {
         waitForStart();
         runtime.reset();
 
-        armMove(80);
-        encoderDrive(.3, 14,14);
-        encoderDrive(.3, 16.3,-16.3);
-        encoderDrive(.3, -16.3,-16.3);
-        encoderDrive(.3, -13,13);
-        encoderDrive(.3, -6.25,-6.25);
-
+        encoderDrive(DRIVE_SPEED, 11.6,11.6);
+        encoderDrive(TURN_SPEED, 13.8, -13.8);
+        encoderDrive(DRIVE_SPEED, -22,-22);
+        encoderDrive(TURN_SPEED, -8.9, 8.9);
+        encoderDrive(0.35, -7.5,-7.5);
         runCarousel();
 
-        encoderDrive(.3, 7, 7);
-        encoderDrive(.3, 13, -13);
-        encoderDrive( .3, 40, 40);
-        encoderDrive( .3, -16.3, 16.3);
-        encoderDrive( .3, 15, 15);
-        armMove(100);
-        runIntakeMotor(2000, true);
-        encoderDrive( .3, 15.2, -15.2);
-        encoderDrive(.5, 53, 53);
+        encoderDrive(DRIVE_SPEED, 7.8, 7.8);
+        encoderDrive(TURN_SPEED, 8.9, -8.9);
+        encoderDrive( DRIVE_SPEED, 40, 40);
+        encoderDrive( TURN_SPEED, -13.8, 13.8);
+        encoderDrive( DRIVE_SPEED, 13, 13);
+        armSet(IMAGE_LEVEL);
+        /*encoderDrive( TURN_SPEED, 15.2, -15.2);
+        encoderDrive(.5, 53, 53);*/
     }
 }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -22,12 +23,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.opencv.core.Scalar;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -42,16 +41,17 @@ public class AutoBasicOpMode extends LinearOpMode{
     static final double     WHEEL_DIAMETER_INCHES = 5.0;
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.3;
-    static final double TURN_SPEED = 0.5;
-    static final double CORRECTION = 1;
+    static final double DRIVE_SPEED = 0.5;
+    static final double TURN_SPEED = 0.6;
+    static int IMAGE_LEVEL = 1;
+    public boolean wait = false, shallow = false, blue = false, carousel = false;
 
     @Override
     public void runOpMode(){}
 
     public void runCarousel() {
         robot.carouselMotor.setPower(0.2);
-        sleep(2000);
+        sleep(2300);
         robot.carouselMotor.setPower(0);
 
         telemetry.addData("Carousel", "Complete");
@@ -66,7 +66,7 @@ public class AutoBasicOpMode extends LinearOpMode{
     }
 
     public void armMove(int degrees) {
-        double ticks = ((degrees-10)/360.0)*288.0*(125.0/40.0);
+        double ticks = ((degrees)/360.0)*288.0*(125.0/40.0);
         robot.armMotor.setTargetPosition((int)ticks);
         robot.armMotor2.setTargetPosition((int)ticks);
         robot.armMotor.setPower(1);
@@ -85,15 +85,17 @@ public class AutoBasicOpMode extends LinearOpMode{
     public void armSet(int Setting) {
         switch(Setting) {
             case 1:
-                armMove(200); //1st level
+                //encoderDrive(DRIVE_SPEED, -3, -3);
+                armMove(48); //1st level
                 runIntakeMotor(2000, true);
                 break;
             case 2:
-                armMove(210); //2nd level
+                armMove(53); //2nd level
                 runIntakeMotor(2000, true);
                 break;
             case 3:
-                armMove(230); //3rd level
+                encoderDrive(DRIVE_SPEED, 3, 3);
+                armMove(73); //3rd level
                 runIntakeMotor(2000, true);
                 break;
             case 4:
@@ -103,13 +105,58 @@ public class AutoBasicOpMode extends LinearOpMode{
             case 5: //Neutral
                 break;
         }
-        armMove(-25); //Resting position
+        //armMove(-25); //Resting position
+    }
+
+    public void encoderDriveRamp(double speed,
+                             double leftInches, double rightInches) {
+        boolean isTurn = false, hasRamped = false;
+        double ramp = speed;
+        if(leftInches != rightInches) isTurn = true;
+        if(isTurn) ramp -= 0.15;
+        else ramp -= 0.1;
+
+        // Ensure that the opmode is still active
+        if (!opModeIsActive()) return;
+
+        // Determine new target position, and pass to motor controller
+        int newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH) ;
+        int newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        double temp = 0.15*newLeftTarget; int ramp1 = (int) temp;
+
+        robot.leftMotor.setTargetPosition(newLeftTarget);
+        robot.rightMotor.setTargetPosition(newRightTarget);
+
+        // Turn On RUN_TO_POSITION
+        robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Start motion (specified speed)
+        runtime.reset();
+        robot.leftMotor.setPower(Math.abs(speed));
+        robot.rightMotor.setPower(Math.abs(speed));
+
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        while (opModeIsActive() &&
+                (robot.leftMotor.isBusy() || robot.rightMotor.isBusy())) {
+            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+            telemetry.addData("Path2",  "Running at %7d :%7d",
+                    robot.leftMotor.getCurrentPosition(),
+                    robot.rightMotor.getCurrentPosition());
+            telemetry.update();
+        }
+
+        // Stop all motion;
+        robot.leftMotor.setPower(0);
+        robot.rightMotor.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void encoderDrive(double speed,
                              double leftInches, double rightInches) {
-        leftInches -= 2.4;
-        rightInches -= 2.4;
 
         // Ensure that the opmode is still active
         if (!opModeIsActive()) return;
@@ -131,7 +178,7 @@ public class AutoBasicOpMode extends LinearOpMode{
 
         // keep looping while we are still active, and there is time left, and both motors are running.
         while (opModeIsActive() &&
-                (robot.leftMotor.isBusy() && robot.rightMotor.isBusy())) {
+                (!checkMotor(newLeftTarget, newRightTarget))) {
             telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
             telemetry.addData("Path2",  "Running at %7d :%7d",
                     robot.leftMotor.getCurrentPosition(),
@@ -148,109 +195,140 @@ public class AutoBasicOpMode extends LinearOpMode{
         robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    /**
-     * Initialize the Vuforia localization engine.
-     */
-    private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    public boolean checkMotor(int newLeftTarget, int newRightTarget){
+        boolean checkMotorBool = true;
+        int leftT = robot.leftMotor.getCurrentPosition();
+        int rightT = robot.rightMotor.getCurrentPosition();
+        if(leftT < newLeftTarget-20 || leftT > newLeftTarget+20){ checkMotorBool = false; }
+        if(rightT < newRightTarget-20 || rightT > newRightTarget+20){ checkMotorBool = false; }
+        return checkMotorBool;
     }
 
-    /**
-     * Initialize the TensorFlow Object Detection engine.
-     */
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.8f;
-        tfodParameters.isModelTensorFlow2 = true;
-        tfodParameters.inputSize = 320;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-    }
+    public OpenCvCamera webcam;
 
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
-    private static final String[] LABELS = {
-            "Ball",
-            "Cube",
-            "Duck",
-            "Marker"
-    };
+    private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
+    private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
 
-    private static final String VUFORIA_KEY =
-            "AUOQWxb/////AAABmRP6L/V1T0Bclh/MquexUq8kKPD3h3N5sSIPraEvHInc1KyTB1KSLqkDd0mdJZibl8t7LsWmHogI6fR7p44UvkxD6uBvANg8xebRLgWIHaPvqxf3IqT8IG2VkljyPD/Unlfi357W5qXls0rtkFem3yX5kROTZEfRbmf5ZwtC3KSu6hBzriQwM7zk0zptP/MWtO6B/SZz6OWwLCR6O4I6TkKC7kQS3b1VGNonWq4fFL5jMcVPypqZKohDySdG4URcz0NqxpeEcC9P/c/VL67JKBcFaNBtix+7N/yccggWv8tUKuofNLIS1mUEv5kTzw9n4ps6ApmE2PziqmOjzpNL0MgF+V3KhRddiJjx51nFKEdX";
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
-    private VuforiaLocalizer vuforia;
+    double CrLowerUpdate = 40;
+    double CbLowerUpdate = 160;
+    double CrUpperUpdate = 255;
+    double CbUpperUpdate = 255;
 
-    /**
-     * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
-     * Detection engine.
-     */
-    private TFObjectDetector tfod;
+    // Pink Range                                      Y      Cr     Cb
+    public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 40.0, 160.0);
+    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
 
-    public void tensorInit() {
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
-        initVuforia();
-        initTfod();
+    public void initWebcam()
+    {
+        // OpenCV webcam
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        //OpenCV Pipeline
+        ContourPipeline myPipeline;
+        webcam.setPipeline(myPipeline = new ContourPipeline());
+        // Configuration of Pipeline
+        myPipeline.ConfigurePipeline(30, 30,30,30,  CAMERA_WIDTH, CAMERA_HEIGHT);
+        myPipeline.ConfigureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
+        myPipeline.ConfigureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
+        // Webcam Streaming
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+            }
 
-        /**
-         * Activate TensorFlow Object Detection before we wait for the start command.
-         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
-        if (tfod != null) {
-            tfod.activate();
+            @Override
+            public void onError(int errorCode)
+            {
+            }
+        });
 
-            // The TensorFlow software will scale the input images from the camera to a lower resolution.
-            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
-            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-            // should be set to the value of the images used to create the TensorFlow Object Detection model
-            // (typically 16/9).
-            tfod.setZoom(2.5, 16.0 / 9.0);
-        }
-    }
-    public boolean isDuck(){
-        if (opModeIsActive()) {
-            while (!isStopRequested()) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            if(recognition.getLabel() != "Marker"){
-                                return true;
-                            }
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                            i++;
-                        }
-                        telemetry.update();
-                    }
+        // Only if you are using ftcdashboard
+        //FtcDashboard dashboard = FtcDashboard.getInstance();
+        //telemetry = dashboard.getTelemetry();
+        //FtcDashboard.getInstance().startCameraStream(webcam, 10);
+
+        //telemetry.update();
+
+        while (!isStopRequested())
+        {
+            if(myPipeline.error){
+                telemetry.addData("Exception: ", myPipeline.debug);
+            }
+
+            if(myPipeline.getRectArea() > 2000){
+                if(myPipeline.getRectMidpointX() > 1011){
+                    AUTONOMOUS_TOP();
                 }
+                else if(myPipeline.getRectMidpointX() > 484){
+                    AUTONOMOUS_MIDDLE();
+                }
+                else {
+                    AUTONOMOUS_BOTTOM();
+                }
+                break;
             }
         }
-        return false;
+    }
+
+    public void AUTONOMOUS_BOTTOM(){
+        IMAGE_LEVEL = 1;
+        telemetry.addData("WHERE: ", "Autonomous BOTTOM"); telemetry.update();
+    }
+    public void AUTONOMOUS_MIDDLE(){
+        IMAGE_LEVEL = 2;
+        telemetry.addData("WHERE: ","Autonomous MIDDLE"); telemetry.update();
+    }
+    public void AUTONOMOUS_TOP(){
+        IMAGE_LEVEL = 3;
+        telemetry.addData("WHERE: ","Autonomous TOP"); telemetry.update();
+    }
+
+    public void menuOption(){
+        while(!gamepad1.y){}
+        if(gamepad1.y){
+            telemetry.addLine("Options: B for Yes, X for No");
+
+            blue = askOption("Blue team");
+            carousel = askOption("Do carousel");
+            wait = askOption("Wait 7 seconds");
+            shallow = askOption("Shallow warehouse");
+            printOptions();
+        }
+    }
+
+    public boolean askOption(String option){
+        boolean isYes = false;
+        telemetry.addLine(option+"?");
+        telemetry.update();
+        while(!gamepad1.b&&!gamepad1.x){}
+
+        if(gamepad1.b) { telemetry.addLine(option); isYes = true; }
+        else telemetry.addLine("NO "+option);
+        telemetry.update();
+        sleep(900);
+        return isYes;
+    }
+
+    public void printOptions(){
+        String opt = "";
+        if(blue) opt += "Blue ";
+        else opt += "Red ";
+
+        if(carousel) opt += "Carousel ";
+        else opt += "Freight ";
+
+        if(wait) opt += "Wait 7 secs ";
+
+        if(shallow) opt += "Shallow warehouse ";
+        else opt += "Deep warehouse ";
+
+        telemetry.addLine(opt);
+        telemetry.addLine("If OK press Y");
+        telemetry.update();
+
+        while (!gamepad1.y) {}
     }
 }

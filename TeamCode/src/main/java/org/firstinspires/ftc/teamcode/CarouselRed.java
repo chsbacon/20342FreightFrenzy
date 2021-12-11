@@ -13,16 +13,18 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="Leg1AutoTurnImage", group="Autonomous")
+@Autonomous(name="CarouselRed", group="Autonomous")
 //@Disabled
 
-public class Leg1AutoTurnImage extends AutoBasicOpMode {
+public class CarouselRed extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode(){
         robot.init(hardwareMap);
-
+        armMove(80);
+        initWebcam();
+        sleep(1000);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -30,19 +32,20 @@ public class Leg1AutoTurnImage extends AutoBasicOpMode {
         waitForStart();
         runtime.reset();
 
-        armMove(80);
-        encoderDrive(.3, 14,14);
-
-        encoderDrive(.3, -4.5,4.5);
-        sleep(2000);
-        encoderDrive(.3, -3,3);
-        sleep(2000);
-        encoderDrive(.3, 20.5,-20.5);
-        encoderDrive(.3, -16.3,-16.3);
-        encoderDrive(.3, -9,9);
-        encoderDrive(.3, -6.5,-6.5);
-
+        encoderDrive(DRIVE_SPEED, 6,6);
+        encoderDrive(TURN_SPEED, -13.8, 13.8);
+        encoderDrive(DRIVE_SPEED, -21,-21);
 
         runCarousel();
+
+      /*  encoderDrive(DRIVE_SPEED, 7.8, 7.8);
+        encoderDrive(TURN_SPEED, 8.9, -8.9);
+        encoderDrive( DRIVE_SPEED, 40, 40);
+        encoderDrive( TURN_SPEED, -13.8, 13.8);
+        encoderDrive( DRIVE_SPEED, 13, 13);
+        armSet(IMAGE_LEVEL); /*
+
+        /*encoderDrive( TURN_SPEED, 15.2, -15.2);
+        encoderDrive(.5, 53, 53);*/
     }
 }

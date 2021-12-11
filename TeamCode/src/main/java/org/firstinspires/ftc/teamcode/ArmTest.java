@@ -64,13 +64,13 @@ public class ArmTest extends LinearOpMode {
             //example if statement: send calculated power to wheels
             if (gamepad1.a) {
                 sleep(250);
-                ticks += 10;
-                armMove(ticks);
+                ticks += 20;
+                armMove(ticks); //(48, 56, 75)
             } 
           
             else if(gamepad1.y){
                 sleep(250);
-                ticks -= 10;
+                ticks -= 20;
                 armMove(ticks);
             }
             robot.leftMotor.setPower(leftPower);
@@ -83,16 +83,16 @@ public class ArmTest extends LinearOpMode {
 
     public void armMove(int myTicks){
         double degrees = (40.0*360.0*myTicks)/(288.0*125.0);
-        telemetry.addData("ArmMotor", "ticks: ", myTicks);
-        telemetry.addData("ArmMotor", "degrees: ", degrees);
+        telemetry.addData("Ticks", myTicks);
+        telemetry.addData("Degrees", degrees);
         telemetry.update();
 
         robot.armMotor.setTargetPosition(myTicks);
         robot.armMotor2.setTargetPosition(myTicks);
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setPower(0.75);
-        robot.armMotor2.setPower(0.75);
+        robot.armMotor.setPower(1);
+        robot.armMotor2.setPower(1);
 
         while(robot.armMotor.isBusy()){
         }

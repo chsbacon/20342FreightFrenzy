@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
  **/
 
 @TeleOp(name = "TemplateTeleOp", group = "Examples")
-//@Disabled
+@Disabled
 
 public class TemplateTeleOp extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();

@@ -23,7 +23,7 @@ import com.qualcomm.robotcore.util.Range;
  **/
 
 @Autonomous(name="FullExampleAuto", group="Examples")
-//@Disabled
+@Disabled
 
 public class FullExampleAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();

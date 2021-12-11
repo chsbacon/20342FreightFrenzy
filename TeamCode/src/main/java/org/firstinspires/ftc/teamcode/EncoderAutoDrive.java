@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "EncoderAutoDrive", group = "Examples")
-//@Disabled
+@Disabled
 
 public class EncoderAutoDrive extends LinearOpMode{
     EncoderHMap             robot   = new EncoderHMap();

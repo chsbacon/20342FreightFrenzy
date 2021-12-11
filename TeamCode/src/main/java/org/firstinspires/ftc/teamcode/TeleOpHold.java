@@ -34,7 +34,7 @@ public class TeleOpHold extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            double drive = -gamepad1.left_stick_y;
+            double drive = -gamepad1.left_stick_y*0.8;
             double turn  =  gamepad1.right_stick_x*0.8;
             double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
@@ -86,53 +86,6 @@ public class TeleOpHold extends TeleBasicOpMode{
                 collectMoving = false;
             }
 
-            //slow forward
-            if (gamepad1.dpad_up && !dUpMoving) {
-                robot.leftMotor.setPower(0.2);
-                robot.rightMotor.setPower(0.2);
-                dUpMoving = true;
-            }
-            else if(!gamepad1.dpad_up && dUpMoving){
-                robot.leftMotor.setPower(0);
-                robot.rightMotor.setPower(0);
-                dUpMoving = false;
-            }
-
-            //slow backward
-            if (gamepad1.dpad_down && !dDownMoving) {
-                robot.leftMotor.setPower(-0.2);
-                robot.rightMotor.setPower(-0.2);
-                dDownMoving = true;
-            }
-            else if(!gamepad1.dpad_down && dDownMoving){
-                robot.leftMotor.setPower(0);
-                robot.rightMotor.setPower(0);
-                dDownMoving = false;
-            }
-
-            //slow right
-            if (gamepad1.dpad_right && !dRightMoving) {
-                robot.leftMotor.setPower(-0.3);
-                robot.rightMotor.setPower(0.3);
-                dRightMoving = true;
-            }
-            else if(!gamepad1.dpad_right && dRightMoving){
-                robot.leftMotor.setPower(0);
-                robot.rightMotor.setPower(0);
-                dRightMoving = false;
-            }
-
-            //slow left
-            if (gamepad1.dpad_left && !dLeftMoving) {
-                robot.leftMotor.setPower(0.3);
-                robot.rightMotor.setPower(-0.3);
-                dLeftMoving = true;
-            }
-            else if(!gamepad1.dpad_left && dLeftMoving){
-                robot.leftMotor.setPower(0);
-                robot.rightMotor.setPower(0);
-                dLeftMoving = false;
-            }
 
             //carousel
             if(gamepad2.dpad_up){

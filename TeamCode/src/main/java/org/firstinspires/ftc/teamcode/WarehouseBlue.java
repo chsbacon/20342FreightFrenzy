@@ -22,18 +22,22 @@ public class WarehouseBlue extends AutoBasicOpMode {
     @Override
     public void runOpMode(){
         robot.init(hardwareMap);
-
+        armMove(80);
+        initWebcam();
+        sleep(1000);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
         runtime.reset();
 
-        encoderDrive(.3, 36,36, 19);
-        encoderDrive(.3, -8.15,8.15,19);
-        armMove(120);
-        encoderDrive(.3, 24.45,-24.45, 19);
-        encoderDrive(.3, 50,50, 19);
+        encoderDrive(DRIVE_SPEED, 11.6,11.6);
+        encoderDrive(TURN_SPEED, -5.8,5.8);
+        encoderDrive(DRIVE_SPEED, 12,12);
+        armSet(IMAGE_LEVEL);
+        encoderDrive(DRIVE_SPEED, -6,-6);
+        encoderDrive(0.7, 19.8, -19.8);
+        encoderDrive(.8, 39,39);
 
     }
 }

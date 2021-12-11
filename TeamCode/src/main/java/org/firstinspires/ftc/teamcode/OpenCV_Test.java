@@ -84,14 +84,14 @@ public class OpenCV_Test extends LinearOpMode {
             telemetry.update();
 
             if(myPipeline.getRectArea() > 2000){
-                if(myPipeline.getRectMidpointX() > 1280){
-                    AUTONOMOUS_C();
+                if(myPipeline.getRectMidpointX() > 1011){
+                    AUTONOMOUS_TOP();
                 }
-                else if(myPipeline.getRectMidpointX() > 640){
-                    AUTONOMOUS_B();
+                else if(myPipeline.getRectMidpointX() > 484){
+                    AUTONOMOUS_MIDDLE();
                 }
                 else {
-                    AUTONOMOUS_A();
+                    AUTONOMOUS_BOTTOM();
                 }
             }
         }
@@ -126,13 +126,13 @@ public class OpenCV_Test extends LinearOpMode {
         if(value > max){ value = max; }
         return value;
     }
-    public void AUTONOMOUS_A(){
-        telemetry.addLine("Autonomous A");
+    public void AUTONOMOUS_BOTTOM(){
+        telemetry.addLine("Autonomous BOTTOM");
     }
-    public void AUTONOMOUS_B(){
-        telemetry.addLine("Autonomous B");
+    public void AUTONOMOUS_MIDDLE(){
+        telemetry.addLine("Autonomous MIDDLE");
     }
-    public void AUTONOMOUS_C(){
-        telemetry.addLine("Autonomous C");
+    public void AUTONOMOUS_TOP(){
+        telemetry.addLine("Autonomous TOP");
     }
 }

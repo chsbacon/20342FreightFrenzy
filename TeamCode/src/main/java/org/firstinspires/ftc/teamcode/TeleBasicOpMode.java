@@ -29,7 +29,7 @@ import java.util.Locale;
 
 public class TeleBasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
-    EncoderHMap robot = new EncoderHMap();
+    EncoderHMap  robot = new EncoderHMap();
 
     @Override
     public void runOpMode(){}
@@ -45,7 +45,7 @@ public class TeleBasicOpMode extends LinearOpMode{
     }
 
     public void runCarousel() {
-        robot.carouselMotor.setPower(0.2);
+        robot.carouselMotor.setPower(0.21);
         sleep(2000);
         robot.carouselMotor.setPower(0);
 
