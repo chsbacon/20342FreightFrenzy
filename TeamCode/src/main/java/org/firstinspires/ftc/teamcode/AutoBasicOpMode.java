@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode;
 
 import android.app.Activity;
@@ -214,7 +213,7 @@ public class AutoBasicOpMode extends LinearOpMode{
     double CrUpperUpdate = 255;
     double CbUpperUpdate = 255;
 
-    // Pink Range                                      Y      Cr     Cb
+    // Blue Range                                      Y      Cr     Cb
     public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 40.0, 160.0);
     public static Scalar scalarUpperYCrCb = new Scalar(255.0, 255.0, 255.0);
 
@@ -227,7 +226,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         ContourPipeline myPipeline;
         webcam.setPipeline(myPipeline = new ContourPipeline());
         // Configuration of Pipeline
-        myPipeline.ConfigurePipeline(30, 30,30,30,  CAMERA_WIDTH, CAMERA_HEIGHT);
+        myPipeline.ConfigurePipeline(0, 0, 0, 0,  CAMERA_WIDTH, CAMERA_HEIGHT);
         myPipeline.ConfigureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
         myPipeline.ConfigureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
         // Webcam Streaming
@@ -286,49 +285,4 @@ public class AutoBasicOpMode extends LinearOpMode{
         telemetry.addData("WHERE: ","Autonomous TOP"); telemetry.update();
     }
 
-    public void menuOption(){
-        while(!gamepad1.y){}
-        if(gamepad1.y){
-            telemetry.addLine("Options: B for Yes, X for No");
-
-            blue = askOption("Blue team");
-            carousel = askOption("Do carousel");
-            wait = askOption("Wait 7 seconds");
-            shallow = askOption("Shallow warehouse");
-            printOptions();
-        }
-    }
-
-    public boolean askOption(String option){
-        boolean isYes = false;
-        telemetry.addLine(option+"?");
-        telemetry.update();
-        while(!gamepad1.b&&!gamepad1.x){}
-
-        if(gamepad1.b) { telemetry.addLine(option); isYes = true; }
-        else telemetry.addLine("NO "+option);
-        telemetry.update();
-        sleep(900);
-        return isYes;
-    }
-
-    public void printOptions(){
-        String opt = "";
-        if(blue) opt += "Blue ";
-        else opt += "Red ";
-
-        if(carousel) opt += "Carousel ";
-        else opt += "Freight ";
-
-        if(wait) opt += "Wait 7 secs ";
-
-        if(shallow) opt += "Shallow warehouse ";
-        else opt += "Deep warehouse ";
-
-        telemetry.addLine(opt);
-        telemetry.addLine("If OK press Y");
-        telemetry.update();
-
-        while (!gamepad1.y) {}
-    }
 }
