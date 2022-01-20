@@ -22,14 +22,13 @@ public class CarouselRed extends AutoBasicOpMode {
     @Override
     public void runOpMode(){
         robot.init(hardwareMap);
-        armMove(80);
         initWebcam();
-        sleep(1000);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-
         waitForStart();
+        armMove(80);
         runtime.reset();
 
         encoderDrive(DRIVE_SPEED, 6,6);

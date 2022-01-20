@@ -45,7 +45,15 @@ public class TeleBasicOpMode extends LinearOpMode{
     }
 
     public void runCarousel() {
-        robot.carouselMotor.setPower(0.21);
+        robot.carouselMotor.setPower(0.2);
+        sleep(2000);
+        robot.carouselMotor.setPower(0);
+
+        telemetry.addData("Carousel", "Complete");
+        telemetry.update();
+    }
+    public void runCarousel2() {
+        robot.carouselMotor.setPower(-0.2);
         sleep(2000);
         robot.carouselMotor.setPower(0);
 

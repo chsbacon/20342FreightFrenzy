@@ -12,9 +12,9 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Config
-@Autonomous(name="OpenCV_Test", group="Tutorials")
+@Autonomous(name= "Test_OpenCV", group="Tutorials")
 
-public class OpenCV_Test extends LinearOpMode {
+public class Test_OpenCV extends LinearOpMode {
 
     private OpenCvCamera webcam;
 
@@ -41,11 +41,10 @@ public class OpenCV_Test extends LinearOpMode {
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         //OpenCV Pipeline
         ContourPipeline myPipeline;
-        webcam.setPipeline(myPipeline = new ContourPipeline());
+        webcam.setPipeline(myPipeline = new ContourPipeline(0.0, 0.0, 0.0, 0.0));
         // Configuration of Pipeline
-        myPipeline.ConfigurePipeline(0, 0, 0, 0,  CAMERA_WIDTH, CAMERA_HEIGHT);
-        myPipeline.ConfigureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
-        myPipeline.ConfigureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
+        myPipeline.configureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
+        myPipeline.configureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
         // Webcam Streaming
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -113,8 +112,8 @@ public class OpenCV_Test extends LinearOpMode {
         CbLowerUpdate = inValues(CbLowerUpdate, 0, 255);
         CbUpperUpdate = inValues(CbUpperUpdate, 0, 255);
 
-        myPipeline.ConfigureScalarLower(0.0, CrLowerUpdate, CbLowerUpdate);
-        myPipeline.ConfigureScalarUpper(255.0, CrUpperUpdate, CbUpperUpdate);
+        myPipeline.configureScalarLower(0.0, CrLowerUpdate, CbLowerUpdate);
+        myPipeline.configureScalarUpper(255.0, CrUpperUpdate, CbUpperUpdate);
 
         telemetry.addData("lowerCr ", (int)CrLowerUpdate);
         telemetry.addData("lowerCb ", (int)CbLowerUpdate);

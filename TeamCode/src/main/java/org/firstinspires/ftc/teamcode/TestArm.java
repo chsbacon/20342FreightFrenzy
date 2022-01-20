@@ -28,11 +28,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.Locale;
 
 
-@TeleOp(name = "ArmTest", group = "Opmode")
+@TeleOp(name = "TestArm", group = "Opmode")
 @Disabled
 
 
-public class ArmTest extends LinearOpMode {
+public class TestArm extends LinearOpMode {
 
     EncoderHMap robot = new EncoderHMap();
     private ElapsedTime runtime = new ElapsedTime(); 
