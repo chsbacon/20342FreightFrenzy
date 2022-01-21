@@ -34,11 +34,10 @@ public class TeleOpHold extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            double drive = -gamepad1.left_stick_y*0.8;
-            double turn  =  gamepad1.right_stick_x*0.8;
+            double drive = -gamepad1.left_stick_y ;
+            double turn  =  gamepad1.right_stick_x;
             double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-
             robot.leftMotor.setPower(leftPower);
             robot.rightMotor.setPower(rightPower);
 
@@ -86,12 +85,15 @@ public class TeleOpHold extends TeleBasicOpMode{
                 collectMoving = false;
             }
 
-
             //carousel
             if(gamepad2.dpad_up){
                 runCarousel();
             }
-            //hold carousel?
+
+            //carousel
+            if(gamepad2.dpad_down){
+                runCarousel2();
+            }
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();

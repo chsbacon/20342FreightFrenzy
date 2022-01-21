@@ -15,9 +15,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@TeleOp(name="GyroTest", group="Exercises")
+@TeleOp(name="TestGyro", group="Exercises")
 @Disabled
-public class GyroTest extends LinearOpMode {
+public class TestGyro extends LinearOpMode {
     EncoderHMap robot = new EncoderHMap();
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();

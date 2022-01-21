@@ -35,13 +35,13 @@ public class AutoBasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     EncoderHMap robot = new EncoderHMap();
 
-    static final double     COUNTS_PER_MOTOR_REV = 537.6;
+    static final double     COUNTS_PER_MOTOR_REV = 1548.3;
     static final double     DRIVE_GEAR_REDUCTION = 60.0/72.0;   // output (wheel) speed / input (motor) speed
     static final double     WHEEL_DIAMETER_INCHES = 5.0;
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.5;
-    static final double TURN_SPEED = 0.6;
+    static final double TURN_SPEED = 0.8;
     static int IMAGE_LEVEL = 1;
     public boolean wait = false, shallow = false, blue = false, carousel = false;
 
@@ -85,11 +85,11 @@ public class AutoBasicOpMode extends LinearOpMode{
         switch(Setting) {
             case 1:
                 //encoderDrive(DRIVE_SPEED, -3, -3);
-                armMove(48); //1st level
+                armMove(44); //1st level
                 runIntakeMotor(2000, true);
                 break;
             case 2:
-                armMove(53); //2nd level
+                armMove(50); //2nd level
                 runIntakeMotor(2000, true);
                 break;
             case 3:
@@ -99,59 +99,11 @@ public class AutoBasicOpMode extends LinearOpMode{
                 break;
             case 4:
                 armMove(10); //Collecting
-                runIntakeMotor(0500, false);
+                runIntakeMotor(500, false);
                 break;
             case 5: //Neutral
                 break;
         }
-        //armMove(-25); //Resting position
-    }
-
-    public void encoderDriveRamp(double speed,
-                             double leftInches, double rightInches) {
-        boolean isTurn = false, hasRamped = false;
-        double ramp = speed;
-        if(leftInches != rightInches) isTurn = true;
-        if(isTurn) ramp -= 0.15;
-        else ramp -= 0.1;
-
-        // Ensure that the opmode is still active
-        if (!opModeIsActive()) return;
-
-        // Determine new target position, and pass to motor controller
-        int newLeftTarget = robot.leftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH) ;
-        int newRightTarget = robot.rightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-        double temp = 0.15*newLeftTarget; int ramp1 = (int) temp;
-
-        robot.leftMotor.setTargetPosition(newLeftTarget);
-        robot.rightMotor.setTargetPosition(newRightTarget);
-
-        // Turn On RUN_TO_POSITION
-        robot.leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // Start motion (specified speed)
-        runtime.reset();
-        robot.leftMotor.setPower(Math.abs(speed));
-        robot.rightMotor.setPower(Math.abs(speed));
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        while (opModeIsActive() &&
-                (robot.leftMotor.isBusy() || robot.rightMotor.isBusy())) {
-            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-            telemetry.addData("Path2",  "Running at %7d :%7d",
-                    robot.leftMotor.getCurrentPosition(),
-                    robot.rightMotor.getCurrentPosition());
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        robot.leftMotor.setPower(0);
-        robot.rightMotor.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        robot.leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void encoderDrive(double speed,
@@ -204,14 +156,8 @@ public class AutoBasicOpMode extends LinearOpMode{
     }
 
     public OpenCvCamera webcam;
-
     private static final int CAMERA_WIDTH  = 1920; // width  of wanted camera resolution
     private static final int CAMERA_HEIGHT = 1080; // height of wanted camera resolution
-
-    double CrLowerUpdate = 40;
-    double CbLowerUpdate = 160;
-    double CrUpperUpdate = 255;
-    double CbUpperUpdate = 255;
 
     // Blue Range                                      Y      Cr     Cb
     public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 40.0, 160.0);
@@ -224,11 +170,10 @@ public class AutoBasicOpMode extends LinearOpMode{
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         //OpenCV Pipeline
         ContourPipeline myPipeline;
-        webcam.setPipeline(myPipeline = new ContourPipeline());
+        webcam.setPipeline(myPipeline = new ContourPipeline(0.0, 0.0, 0.0, 0.0));
         // Configuration of Pipeline
-        myPipeline.ConfigurePipeline(0, 0, 0, 0,  CAMERA_WIDTH, CAMERA_HEIGHT);
-        myPipeline.ConfigureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
-        myPipeline.ConfigureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
+        myPipeline.configureScalarLower(scalarLowerYCrCb.val[0],scalarLowerYCrCb.val[1],scalarLowerYCrCb.val[2]);
+        myPipeline.configureScalarUpper(scalarUpperYCrCb.val[0],scalarUpperYCrCb.val[1],scalarUpperYCrCb.val[2]);
         // Webcam Streaming
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {

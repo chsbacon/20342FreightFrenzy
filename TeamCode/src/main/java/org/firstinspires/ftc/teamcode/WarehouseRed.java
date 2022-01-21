@@ -22,12 +22,12 @@ public class WarehouseRed extends AutoBasicOpMode {
     @Override
     public void runOpMode(){
         robot.init(hardwareMap);
+        initWebcam();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
-        initWebcam();
         armMove(80);
         runtime.reset();
 
