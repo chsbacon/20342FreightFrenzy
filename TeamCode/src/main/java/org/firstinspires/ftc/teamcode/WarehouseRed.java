@@ -20,7 +20,7 @@ public class WarehouseRed extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
         robot.init(hardwareMap);
         initWebcam();
 
@@ -31,13 +31,15 @@ public class WarehouseRed extends AutoBasicOpMode {
         armMove(80);
         runtime.reset();
 
-        encoderDrive(DRIVE_SPEED, 11.6,11.6);
-        encoderDrive(TURN_SPEED, 6,-6);
-        encoderDrive(DRIVE_SPEED, 11,11);
+        encoderDrive(DRIVE_SPEED, 11.6, 11.6);
+        encoderDrive(TURN_SPEED, 5.8, -5.8);
+        encoderDrive(DRIVE_SPEED, 12, 12);
         armSet(IMAGE_LEVEL);
-        encoderDrive(DRIVE_SPEED, -6,-6);
-        encoderDrive(0.7, -19.8, 19.8);
-        encoderDrive(.8, 39,39);
+        encoderDrive(DRIVE_SPEED, -8, -8);
+        encoderDrive(0.7, -19, 19); //orig 19.8
+
+        if (IMAGE_LEVEL == 3) armMove(45);
+        encoderDrive(.8, 39, 39);
 
     }
 }

@@ -94,7 +94,7 @@ public class AutoBasicOpMode extends LinearOpMode{
                 break;
             case 3:
                 encoderDrive(DRIVE_SPEED, 3, 3);
-                armMove(73); //3rd level
+                armMove(65); //3rd level
                 runIntakeMotor(2000, true);
                 break;
             case 4:
