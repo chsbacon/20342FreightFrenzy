@@ -21,6 +21,7 @@ public class TeleOpHold extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
+        double mltpr=1.0
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
         boolean topperMovingForward = false, topperMovingBack = false;
@@ -35,12 +36,17 @@ public class TeleOpHold extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            double drive = -gamepad1.left_stick_y ;
-            double turn  =  gamepad1.right_stick_x;
-            double leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-            double rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            robot.leftMotor.setPower(leftPower);
-            robot.rightMotor.setPower(rightPower);
+            if(gamepad1.right_trigger>=0.1) {
+                mltpr = 0.5;
+            } else {
+                mltpr = 1;
+            }
+            double drive = -gamepad1.left_stick_y;
+            double turn = gamepad1.right_stick_x;
+            double leftPower = Range.clip(drive + turn, -1.0, 1.0);
+            double rightPower = Range.clip(drive - turn, -1.0, 1.0);
+            robot.leftMotor.setPower(leftPower*mltpr);
+            robot.rightMotor.setPower(rightPower*mltpr);
             //topper forward
             if (gamepad1.right_bumper && !topperMovingForward) {
                 robot.topMotor.setPower(0.5);
