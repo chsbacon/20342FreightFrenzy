@@ -21,7 +21,7 @@ public class TeleOpHold extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
-        double mltpr=1.0
+        double mltpr=1.0;
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
         boolean topperMovingForward = false, topperMovingBack = false;
