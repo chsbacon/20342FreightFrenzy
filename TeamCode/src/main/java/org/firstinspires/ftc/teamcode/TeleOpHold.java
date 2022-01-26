@@ -23,7 +23,7 @@ public class TeleOpHold extends TeleBasicOpMode{
     public void runOpMode(){
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
-        boolean topperMoving = false;
+        boolean topperMovingForward = false, topperMovingBack = false;
         boolean dUpMoving = false, dDownMoving = false, dRightMoving = false, dLeftMoving = false;
         robot.init(hardwareMap);
 
@@ -42,15 +42,26 @@ public class TeleOpHold extends TeleBasicOpMode{
             robot.leftMotor.setPower(leftPower);
             robot.rightMotor.setPower(rightPower);
             //topper forward
-            if (gamepad1.right_bumper && !topperMoving) {
+            if (gamepad1.right_bumper && !topperMovingForward) {
                 robot.topMotor.setPower(0.5);
                 robot.topMotor.setPower(0.5);
-                topperMoving = true;
+                topperMovingForward = true;
             }
-            else if(!gamepad1.right_bumper && topperMoving){
+            else if(!gamepad1.right_bumper && topperMovingForward){
                 robot.topMotor.setPower(0);
                 robot.topMotor.setPower(0);
-                topperMoving = false;
+                topperMovingForward = false;
+            }
+            //topper back
+            if (gamepad1.left_bumper && !topperMovingBack) {
+                robot.topMotor.setPower(-0.5);
+                robot.topMotor.setPower(-0.5);
+                topperMovingBack = true;
+            }
+            else if(!gamepad1.left_bumper && topperMovingBack){
+                robot.topMotor.setPower(0);
+                robot.topMotor.setPower(0);
+                topperMovingBack = false;
             }
             //arm forward
             if (gamepad2.b && !armFMoving) {
