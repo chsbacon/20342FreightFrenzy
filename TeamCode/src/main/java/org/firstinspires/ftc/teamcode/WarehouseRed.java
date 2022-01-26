@@ -37,7 +37,6 @@ public class WarehouseRed extends AutoBasicOpMode {
         armSet(IMAGE_LEVEL);
         encoderDrive(DRIVE_SPEED, -8, -8);
         encoderDrive(0.7, -19, 19); //orig 19.8
-
         if (IMAGE_LEVEL == 3) armMove(45);
         encoderDrive(.8, 39, 39);
 

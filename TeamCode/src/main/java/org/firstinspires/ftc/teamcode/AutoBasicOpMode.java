@@ -84,16 +84,17 @@ public class AutoBasicOpMode extends LinearOpMode{
     public void armSet(int Setting) {
         switch(Setting) {
             case 1:
-                //encoderDrive(DRIVE_SPEED, -3, -3);
-                armMove(44); //1st level
+                armMove(30); //1st level
+                encoderDrive(DRIVE_SPEED,2,2);
                 runIntakeMotor(2000, true);
                 break;
             case 2:
-                armMove(50); //2nd level
+                encoderDrive(DRIVE_SPEED, 2, 2);
+                armMove(55); //2nd level
                 runIntakeMotor(2000, true);
                 break;
             case 3:
-                encoderDrive(DRIVE_SPEED, 3, 3);
+                encoderDrive(DRIVE_SPEED, 4, 4);
                 armMove(65); //3rd level
                 runIntakeMotor(2000, true);
                 break;
@@ -109,7 +110,7 @@ public class AutoBasicOpMode extends LinearOpMode{
     public void encoderDrive(double speed,
                              double leftInches, double rightInches) {
 
-        // Ensure that the opmode is still active
+        // Ensure that the OpMode is still active
         if (!opModeIsActive()) return;
 
         // Determine new target position, and pass to motor controller
@@ -189,7 +190,7 @@ public class AutoBasicOpMode extends LinearOpMode{
             }
         });
 
-        // Only if you are using ftcdashboard
+        // Only if you are using FTCDashboard
         //FtcDashboard dashboard = FtcDashboard.getInstance();
         //telemetry = dashboard.getTelemetry();
         //FtcDashboard.getInstance().startCameraStream(webcam, 10);

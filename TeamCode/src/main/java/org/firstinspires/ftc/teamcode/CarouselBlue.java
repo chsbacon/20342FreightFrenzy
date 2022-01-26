@@ -13,10 +13,10 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="CarouselRed", group="Autonomous")
+@Autonomous(name="CarouselBlue", group="Autonomous")
 //@Disabled
 
-public class CarouselRed extends AutoBasicOpMode {
+public class CarouselBlue extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -28,14 +28,13 @@ public class CarouselRed extends AutoBasicOpMode {
         telemetry.update();
 
         waitForStart();
-        armMove(80);
+        armMove(70);
         runtime.reset();
 
-        encoderDrive(.4,1,1);
+        encoderDrive(.4, -2,2);
         runCarousel();
-        encoderDrive(.4,-7,7);
-        encoderDrive(.4,18,18);
-        encoderDrive(.4,7,7);
-        encoderDrive(.4,20,20);
+        encoderDrive(.4,17,17);
+        encoderDrive(.4, -12,12);
+        encoderDrive(.4,25,25);
     }
 }
