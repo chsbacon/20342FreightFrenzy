@@ -21,7 +21,7 @@ public class TeleOpHold extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
-        double mltpr=1.0;
+        double mltprMove=1.0, mltprArm=1.0;
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
         boolean topperMovingForward = false, topperMovingBack = false;
@@ -37,16 +37,21 @@ public class TeleOpHold extends TeleBasicOpMode{
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
             if(gamepad1.right_trigger>=0.1) {
-                mltpr = 0.5;
+                mltprMove = 0.5;
             } else {
-                mltpr = 1;
+                mltprMove = 1.0;
             }
-            double drive = -gamepad1.left_stick_y;
+            if(gamepade2.left_trigger>=0.1) {
+                mltprArm = 0.5;
+            } else {
+                mltprArm = 1.0; 
+            }
+            double drive = gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             double leftPower = Range.clip(drive + turn, -1.0, 1.0);
             double rightPower = Range.clip(drive - turn, -1.0, 1.0);
-            robot.leftMotor.setPower(leftPower*mltpr);
-            robot.rightMotor.setPower(rightPower*mltpr);
+            robot.leftMotor.setPower(leftPower*mltprMove);
+            robot.rightMotor.setPower(rightPower*mltprMove);
             //topper forward
             if (gamepad1.right_bumper && !topperMovingForward) {
                 robot.topMotor.setPower(0.5);
@@ -71,8 +76,8 @@ public class TeleOpHold extends TeleBasicOpMode{
             }
             //arm forward
             if (gamepad2.b && !armFMoving) {
-                robot.armMotor.setPower(-0.5);
-                robot.armMotor2.setPower(-0.5);
+                robot.armMotor.setPower(-0.5*mltprArm);
+                robot.armMotor2.setPower(-0.5*mltprArm);
                 armFMoving = true;
             }
             else if(!gamepad2.b && armFMoving){
@@ -83,8 +88,8 @@ public class TeleOpHold extends TeleBasicOpMode{
 
             //arm backward
             if (gamepad2.x && !armBMoving) {
-                robot.armMotor.setPower(0.5);
-                robot.armMotor2.setPower(0.5);
+                robot.armMotor.setPower(0.5*mltprArm);
+                robot.armMotor2.setPower(0.5*mltprArm);
                 armBMoving = true;
             }
             else if(!gamepad2.x && armBMoving){
