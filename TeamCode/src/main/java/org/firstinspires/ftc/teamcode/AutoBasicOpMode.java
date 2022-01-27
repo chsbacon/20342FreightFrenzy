@@ -85,7 +85,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         switch(Setting) {
             case 1:
                 armMove(30); //1st level
-                encoderDrive(DRIVE_SPEED,2,2);
+                encoderDrive(DRIVE_SPEED,2,2);  //go forward more
                 runIntakeMotor(2000, true);
                 break;
             case 2:

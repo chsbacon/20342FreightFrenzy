@@ -21,7 +21,7 @@ public class TeleOpHold extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
-        double mltprMove=1.0, mltprArm=1.0;
+        double mltpr= 1.0, mltprArm = 1.0;;
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
         boolean topperMovingForward = false, topperMovingBack = false;
@@ -36,22 +36,19 @@ public class TeleOpHold extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            if(gamepad1.right_trigger>=0.1) {
-                mltprMove = 0.5;
-            } else {
-                mltprMove = 1.0;
-            }
-            if(gamepade2.left_trigger>=0.1) {
-                mltprArm = 0.5;
-            } else {
-                mltprArm = 1.0; 
-            }
-            double drive = gamepad1.left_stick_y;
+            if(gamepad1.right_trigger>=0.1) mltpr = 0.4;
+            else mltpr = 1.0;
+
+            if(gamepad2.left_trigger>=0.1) mltprArm = 0.35;
+            else mltprArm = 1.0;
+
+
+            double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
             double leftPower = Range.clip(drive + turn, -1.0, 1.0);
             double rightPower = Range.clip(drive - turn, -1.0, 1.0);
-            robot.leftMotor.setPower(leftPower*mltprMove);
-            robot.rightMotor.setPower(rightPower*mltprMove);
+            robot.leftMotor.setPower(leftPower*mltpr);
+            robot.rightMotor.setPower(rightPower*mltpr);
             //topper forward
             if (gamepad1.right_bumper && !topperMovingForward) {
                 robot.topMotor.setPower(0.5);
@@ -128,7 +125,8 @@ public class TeleOpHold extends TeleBasicOpMode{
                 runCarousel2();
             }
 
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            //telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Ticks", ": " + robot.topMotor.getCurrentPosition());
             telemetry.update();
         }
 

@@ -31,11 +31,11 @@ public class CarouselRed extends AutoBasicOpMode {
         armMove(80);
         runtime.reset();
 
-        encoderDrive(.4,1,1);
+        encoderDrive(.4,-2,-2);
         runCarousel();
         encoderDrive(.4,-7,7);
-        encoderDrive(.4,18,18);
-        encoderDrive(.4,7,7);
-        encoderDrive(.4,20,20);
+        encoderDrive(.4,-17,-17);
+        encoderDrive(.4,-3,3);
+        encoderDrive(.4,-9,-9);
     }
 }

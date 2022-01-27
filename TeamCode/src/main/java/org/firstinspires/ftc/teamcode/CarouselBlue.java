@@ -33,7 +33,7 @@ public class CarouselBlue extends AutoBasicOpMode {
 
         encoderDrive(.4, -2,2);
         runCarousel();
-        encoderDrive(.4,22,22);
+        encoderDrive(.4,27,27);
         encoderDrive(.4, -16,16);
         encoderDrive(.4,22,22);
     }
