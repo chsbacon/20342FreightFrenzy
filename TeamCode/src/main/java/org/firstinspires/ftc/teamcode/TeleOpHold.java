@@ -21,11 +21,12 @@ public class TeleOpHold extends TeleBasicOpMode{
 
     @Override
     public void runOpMode(){
-        double mltpr= 1.0, mltprArm = 1.0;;
+        double mltpr= 1.0, mltprArm = 1.0, topPwr = 0.0;
         boolean armFMoving = false, armBMoving = false;
         boolean depositMoving = false, collectMoving = false;
         boolean topperMovingForward = false, topperMovingBack = false;
         boolean dUpMoving = false, dDownMoving = false, dRightMoving = false, dLeftMoving = false;
+        boolean tooFar=false, tooLow=false;
         robot.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
@@ -42,6 +43,17 @@ public class TeleOpHold extends TeleBasicOpMode{
             if(gamepad2.left_trigger>=0.1) mltprArm = 0.35;
             else mltprArm = 1.0;
 
+            tooFar = robot.topMotor.getCurrentPosition()>1670;
+            tooLow = robot.topMotor.getCurrentPosition()<-32;
+            if(tooFar || tooLow){
+                if(topPwr != 0.0) {
+                    topPwr = 0.0;
+                    robot.topMotor.setPower(0);
+                    topperMovingForward = false;
+                    topperMovingBack = false;
+                }
+            }
+
 
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
@@ -50,31 +62,37 @@ public class TeleOpHold extends TeleBasicOpMode{
             robot.leftMotor.setPower(leftPower*mltpr);
             robot.rightMotor.setPower(rightPower*mltpr);
             //topper forward
-            if (gamepad1.right_bumper && !topperMovingForward) {
+            if (gamepad1.right_bumper && !topperMovingForward && !tooFar) {
                 robot.topMotor.setPower(0.5);
-                robot.topMotor.setPower(0.5);
+                topPwr = 0.5;
                 topperMovingForward = true;
             }
             else if(!gamepad1.right_bumper && topperMovingForward){
                 robot.topMotor.setPower(0);
-                robot.topMotor.setPower(0);
+                topPwr = 0.0;
                 topperMovingForward = false;
             }
             //topper back
-            if (gamepad1.left_bumper && !topperMovingBack) {
+            if (gamepad1.left_bumper && !topperMovingBack && !tooLow) {
                 robot.topMotor.setPower(-0.5);
-                robot.topMotor.setPower(-0.5);
+                topPwr = -0.5;
                 topperMovingBack = true;
             }
             else if(!gamepad1.left_bumper && topperMovingBack){
                 robot.topMotor.setPower(0);
-                robot.topMotor.setPower(0);
+                topPwr = 0.0;
                 topperMovingBack = false;
             }
             //arm forward
             if (gamepad2.b && !armFMoving) {
-                robot.armMotor.setPower(-0.5*mltprArm);
-                robot.armMotor2.setPower(-0.5*mltprArm);
+                if(mltprArm != 1.0){
+                    robot.armMotor.setPower(-0.1);
+                    robot.armMotor2.setPower(-0.1);
+                }
+                else {
+                    robot.armMotor.setPower(-0.5);
+                    robot.armMotor2.setPower(-0.5);
+                }
                 armFMoving = true;
             }
             else if(!gamepad2.b && armFMoving){
@@ -83,8 +101,10 @@ public class TeleOpHold extends TeleBasicOpMode{
                 armFMoving = false;
             }
 
+            double mltprSpecial;
             //arm backward
             if (gamepad2.x && !armBMoving) {
+
                 robot.armMotor.setPower(0.5*mltprArm);
                 robot.armMotor2.setPower(0.5*mltprArm);
                 armBMoving = true;

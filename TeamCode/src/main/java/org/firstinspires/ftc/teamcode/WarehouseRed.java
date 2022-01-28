@@ -22,20 +22,19 @@ public class WarehouseRed extends AutoBasicOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        waitForStart();
         initWebcam();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        waitForStart();
         armMove(80);
         runtime.reset();
 
         encoderDrive(DRIVE_SPEED, 11.6, 11.6);
-        encoderDrive(TURN_SPEED, 5.8, -5.8);
+        encoderDrive(TURN_SPEED, 5.7, -5.7);
         encoderDrive(DRIVE_SPEED, 12, 12);
         armSet(IMAGE_LEVEL);
-        encoderDrive(DRIVE_SPEED, -11, -11);
         encoderDrive(0.7, -19.8, 19.8); //orig 19.8
         if (IMAGE_LEVEL == 3) armMove(45);
         encoderDrive(.8, 39, 39);

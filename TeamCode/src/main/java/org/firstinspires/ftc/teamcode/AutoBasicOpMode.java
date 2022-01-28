@@ -84,19 +84,22 @@ public class AutoBasicOpMode extends LinearOpMode{
     public void armSet(int Setting) {
         switch(Setting) {
             case 1:
-                armMove(30); //1st level
-                encoderDrive(DRIVE_SPEED,2,2);  //go forward more
+                armMove(34); //1st level
+                encoderDrive(DRIVE_SPEED,4,4);  //go forward more
                 runIntakeMotor(2000, true);
+                encoderDrive(DRIVE_SPEED, -13, -13);
                 break;
             case 2:
-                encoderDrive(DRIVE_SPEED, 2, 2);
-                armMove(55); //2nd level
+                encoderDrive(DRIVE_SPEED, 1, 1);
+                armMove(53); //2nd level
                 runIntakeMotor(2000, true);
+                encoderDrive(DRIVE_SPEED, -10, -10);
                 break;
             case 3:
                 encoderDrive(DRIVE_SPEED, 4, 4);
-                armMove(65); //3rd level
+                armMove(67); //3rd level
                 runIntakeMotor(2000, true);
+                encoderDrive(DRIVE_SPEED, -13, -13);
                 break;
             case 4:
                 armMove(10); //Collecting
