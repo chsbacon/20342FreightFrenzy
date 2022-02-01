@@ -37,5 +37,7 @@ public class CarouselRed extends AutoBasicOpMode {
         encoderDrive(.4,-17,-17);
         encoderDrive(.4,-3,3);
         encoderDrive(.4,-9,-9);
+
+        requestOpModeStop();
     }
 }
