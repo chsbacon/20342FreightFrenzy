@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.Range;
 @Autonomous(name="CarouselBlueTest", group="Autonomous")
 //@Disabled
 
-public class CarouselBlueTest extends AutoBasicOpMode {
+public class CarouselBlueTest extends AutoBasicOpMode2 {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -33,11 +33,14 @@ public class CarouselBlueTest extends AutoBasicOpMode {
         runtime.reset();
 
         encoderDrive(DRIVE_SPEED, 11.6, 11.6);
-        encoderDrive(TURN_SPEED, 5.7, -5.7);
-        encoderDrive(DRIVE_SPEED, 12,12);
+        encoderDrive(TURN_SPEED, 7, -7);
+        encoderDrive(DRIVE_SPEED, 15,15);
         armSet(IMAGE_LEVEL);
         encoderDrive(TURN_SPEED, 3, -3);
-        encoderDrive(DRIVE_SPEED, -15, -15);
+        encoderDrive(DRIVE_SPEED, -28, -28);
+        encoderDrive(TURN_SPEED, -2.5, 2.5);
+        encoderDrive(DRIVE_SPEED, -4, -4);
+        runCarousel();
 
         requestOpModeStop();
     }
