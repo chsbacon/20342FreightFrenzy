@@ -40,5 +40,6 @@ public class WarehouseBlue extends AutoBasicOpMode {
         if (IMAGE_LEVEL == 3) armMove(45);
         encoderDrive(.8, 39,39);
 
+        requestOpModeStop();
     }
 }

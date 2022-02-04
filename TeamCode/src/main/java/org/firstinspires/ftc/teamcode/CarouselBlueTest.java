@@ -13,31 +13,34 @@ import com.qualcomm.robotcore.util.Range;
  * The code is structured as a LinearOpMode
  **/
 
-@Autonomous(name="WarehouseRed", group="Autonomous")
+@Autonomous(name="CarouselBlueTest", group="Autonomous")
 //@Disabled
 
-public class WarehouseRed extends AutoBasicOpMode {
+public class CarouselBlueTest extends AutoBasicOpMode2 {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void runOpMode() {
+    public void runOpMode(){
         robot.init(hardwareMap);
-        waitForStart();
-        initWebcam();
+
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        armMove(80);
+        waitForStart();
+        initWebcam();
+        armMove(70);
         runtime.reset();
 
         encoderDrive(DRIVE_SPEED, 11.6, 11.6);
-        encoderDrive(TURN_SPEED, 5.7, -5.7);
-        encoderDrive(DRIVE_SPEED, 12, 12);
+        encoderDrive(TURN_SPEED, 7, -7);
+        encoderDrive(DRIVE_SPEED, 15,15);
         armSet(IMAGE_LEVEL);
-        encoderDrive(0.7, -19.8, 19.8); //orig 19.8
-        if (IMAGE_LEVEL == 3) armMove(45);
-        encoderDrive(.8, 39, 39);
+        encoderDrive(TURN_SPEED, 3, -3);
+        encoderDrive(DRIVE_SPEED, -28, -28);
+        encoderDrive(TURN_SPEED, -2.5, 2.5);
+        encoderDrive(DRIVE_SPEED, -4, -4);
+        runCarousel();
 
         requestOpModeStop();
     }
