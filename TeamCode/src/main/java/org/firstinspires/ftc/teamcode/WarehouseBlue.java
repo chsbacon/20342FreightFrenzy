@@ -32,13 +32,14 @@ public class WarehouseBlue extends AutoBasicOpMode {
         armMove(80);
         runtime.reset();
 
-        encoderDrive(DRIVE_SPEED, 11.6,11.6);
-        encoderDrive(TURN_SPEED, -5.7,5.7);
-        encoderDrive(DRIVE_SPEED, 12,12);
+        encoderDrive(DRIVE_SPEED, 13,13); //
+        encoderDrive(TURN_SPEED, -7.75,7.75);
+        encoderDrive(DRIVE_SPEED, 12.4,12.4);
         armSet(IMAGE_LEVEL);
-        encoderDrive(0.7, 19.8, -19.8);
-        if (IMAGE_LEVEL == 3) armMove(45);
+        encoderDrive(0.7, 16.6, -16.6);
+        if (IMAGE_LEVEL == 3) armMove(50);
         encoderDrive(.8, 39,39);
+        armMove(0);
 
         requestOpModeStop();
     }

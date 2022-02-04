@@ -35,7 +35,7 @@ public class AutoBasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     EncoderHMap robot = new EncoderHMap();
 
-    static final double     COUNTS_PER_MOTOR_REV = 1548.3;
+    static final double     COUNTS_PER_MOTOR_REV = 1120; //1548.3;
     static final double     DRIVE_GEAR_REDUCTION = 60.0/72.0;   // output (wheel) speed / input (motor) speed
     static final double     WHEEL_DIAMETER_INCHES = 5.0;
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -57,14 +57,14 @@ public class AutoBasicOpMode extends LinearOpMode{
     }
 
     public void runIntakeMotor(int time, boolean deposit) {
-        if(deposit) robot.intakeMotor.setPower(0.6);
+        if(deposit) robot.intakeMotor.setPower(0.5);
         else robot.intakeMotor.setPower(-1); //collect
 
         sleep(time);
         robot.intakeMotor.setPower(0);
     }
 
-    public void armMove(int degrees) {
+    public void armMove(double degrees) {
         double ticks = ((degrees)/360.0)*288.0*(125.0/40.0);
         robot.armMotor.setTargetPosition((int)ticks);
         robot.armMotor2.setTargetPosition((int)ticks);
@@ -84,22 +84,20 @@ public class AutoBasicOpMode extends LinearOpMode{
     public void armSet(int Setting) {
         switch(Setting) {
             case 1:
-                armMove(34); //1st level
-                encoderDrive(DRIVE_SPEED,4,4);  //go forward more
+                armMove(48.5); //1st level
                 runIntakeMotor(2000, true);
-                encoderDrive(DRIVE_SPEED, -13, -13);
+                encoderDrive(DRIVE_SPEED, -12, -12);
                 break;
             case 2:
-                encoderDrive(DRIVE_SPEED, 1, 1);
-                armMove(53); //2nd level
+                armMove(69); //2nd level
                 runIntakeMotor(2000, true);
-                encoderDrive(DRIVE_SPEED, -10, -10);
+                encoderDrive(DRIVE_SPEED, -12, -12);
                 break;
             case 3:
-                encoderDrive(DRIVE_SPEED, 4, 4);
-                armMove(67); //3rd level
+                encoderDrive(DRIVE_SPEED, 2, 2);
+                armMove(94); //3rd level
                 runIntakeMotor(2000, true);
-                encoderDrive(DRIVE_SPEED, -13, -13);
+                encoderDrive(DRIVE_SPEED, -15, -15);
                 break;
             case 4:
                 armMove(10); //Collecting

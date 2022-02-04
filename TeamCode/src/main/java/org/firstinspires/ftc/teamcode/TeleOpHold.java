@@ -57,8 +57,8 @@ public class TeleOpHold extends TeleBasicOpMode{
 
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
-            double leftPower = Range.clip(drive + turn, -1.0, 1.0);
-            double rightPower = Range.clip(drive - turn, -1.0, 1.0);
+            double leftPower = Range.clip(drive - turn, -1.0, 1.0);
+            double rightPower = Range.clip(drive + turn, -1.0, 1.0);
             robot.leftMotor.setPower(leftPower*mltpr);
             robot.rightMotor.setPower(rightPower*mltpr);
             //topper forward
@@ -90,8 +90,8 @@ public class TeleOpHold extends TeleBasicOpMode{
                     robot.armMotor2.setPower(-0.1);
                 }
                 else {
-                    robot.armMotor.setPower(-0.5);
-                    robot.armMotor2.setPower(-0.5);
+                    robot.armMotor.setPower(-0.7);
+                    robot.armMotor2.setPower(-0.7);
                 }
                 armFMoving = true;
             }

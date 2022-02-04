@@ -43,8 +43,8 @@ public class EncoderHMap
         topMotor      = hwMap.get(DcMotor.class, "TM"); //P
         
         //Reverse right motor
-        leftMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightMotor.setDirection(DcMotor.Direction.FORWARD);
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor2.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
