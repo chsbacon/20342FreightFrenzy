@@ -37,7 +37,7 @@ public class TeleOpHold extends TeleBasicOpMode{
 
         while (opModeIsActive()){
             //POV Mode driving (left stick go forward/back, right stick turn)
-            if(gamepad1.right_trigger>=0.1) mltpr = 0.4;
+            if(gamepad1.right_trigger>=0.1) mltpr = 0.25;
             else mltpr = 1.0;
 
             if(gamepad2.left_trigger>=0.1) mltprArm = 0.35;
@@ -57,8 +57,8 @@ public class TeleOpHold extends TeleBasicOpMode{
 
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
-            double leftPower = Range.clip(drive - turn, -1.0, 1.0);
-            double rightPower = Range.clip(drive + turn, -1.0, 1.0);
+            double leftPower = Range.clip(drive + turn, -1.0, 1.0);
+            double rightPower = Range.clip(drive - turn, -1.0, 1.0);
             robot.leftMotor.setPower(leftPower*mltpr);
             robot.rightMotor.setPower(rightPower*mltpr);
             //topper forward
@@ -90,8 +90,8 @@ public class TeleOpHold extends TeleBasicOpMode{
                     robot.armMotor2.setPower(-0.1);
                 }
                 else {
-                    robot.armMotor.setPower(-0.7);
-                    robot.armMotor2.setPower(-0.7);
+                    robot.armMotor.setPower(-0.6);
+                    robot.armMotor2.setPower(-0.6);
                 }
                 armFMoving = true;
             }
@@ -105,8 +105,8 @@ public class TeleOpHold extends TeleBasicOpMode{
             //arm backward
             if (gamepad2.x && !armBMoving) {
 
-                robot.armMotor.setPower(0.5*mltprArm);
-                robot.armMotor2.setPower(0.5*mltprArm);
+                robot.armMotor.setPower(0.7*mltprArm);
+                robot.armMotor2.setPower(0.7*mltprArm);
                 armBMoving = true;
             }
             else if(!gamepad2.x && armBMoving){
@@ -135,8 +135,27 @@ public class TeleOpHold extends TeleBasicOpMode{
                 collectMoving = false;
             }
 
+            if(gamepad2.dpad_left && !dLeftMoving) {
+                robot.carouselMotor.setPower(0.2);
+                dLeftMoving = true;
+            }
+            else if(!gamepad2.dpad_left && dLeftMoving){
+                robot.carouselMotor.setPower(0);
+                dLeftMoving = false;
+            }
+
+            if(gamepad2.dpad_right && !dRightMoving) {
+                robot.carouselMotor.setPower(-0.2);
+                dRightMoving = true;
+            }
+            else if(!gamepad2.dpad_right && dRightMoving){
+                robot.carouselMotor.setPower(0);
+                dRightMoving = false;
+            }
+
+
             //carousel
-            if(gamepad2.dpad_up){
+            if(gamepad2.dpad_up && !dLeftMoving && !dRightMoving){
                 runCarousel();
             }
 
