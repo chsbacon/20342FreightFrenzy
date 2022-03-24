@@ -33,7 +33,7 @@ import java.util.Locale;
 
 public class AutoBasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
-    EncoderHMap robot = new EncoderHMap();
+    MecanumHMap robot = new MecanumHMap(hardwareMap);
 
     static final double     COUNTS_PER_MOTOR_REV = 1120; //1548.3;
     static final double     DRIVE_GEAR_REDUCTION = 60.0/72.0;   // output (wheel) speed / input (motor) speed
@@ -47,7 +47,7 @@ public class AutoBasicOpMode extends LinearOpMode{
 
     @Override
     public void runOpMode(){}
-
+    /*
     public void runCarousel() {
         robot.carouselMotor.setPower(0.2);
         sleep(2300);
@@ -55,7 +55,44 @@ public class AutoBasicOpMode extends LinearOpMode{
 
         telemetry.addData("Carousel", "Complete");
     }
-
+    */
+    public void runForward(int time) {
+        runtime.reset();
+        while(runtime.seconds()<=time) {
+            robot.RHMotor.setPower(1);
+            robot.LHMotor.setPower(1);
+        }
+        robot.RHMotor.setPower(0);
+        robot.LHMotor.setPower(0);
+    }
+    public void runBack(int time) {
+        runtime.reset();
+        while(runtime.seconds()<=time) {
+            robot.RHMotor.setPower(-1);
+            robot.LHMotor.setPower(-1);
+        }
+        robot.RHMotor.setPower(0);
+        robot.LHMotor.setPower(0);
+    }
+    public void runLeft(int time) {
+        runtime.reset();
+        while(runtime.seconds()<=time) {
+            robot.FVMotor.setPower(1);
+            robot.BVMotor.setPower(1);
+        }
+        robot.FVMotor.setPower(0);
+        robot.BVMotor.setPower(0);
+    }
+    public void runRight(int time) {
+        runtime.reset();
+        while(runtime.seconds()<=time) {
+            robot.FVMotor.setPower(-1);
+            robot.BVMotor.setPower(-1);
+        }
+        robot.FVMotor.setPower(0);
+        robot.BVMotor.setPower(0);
+    }
+    /*
     public void runIntakeMotor(int time, boolean deposit) {
         if(deposit) robot.intakeMotor.setPower(0.5);
         else robot.intakeMotor.setPower(-1); //collect
@@ -231,5 +268,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         IMAGE_LEVEL = 3;
         telemetry.addData("WHERE: ","Autonomous TOP"); telemetry.update();
     }
+
+     */
 
 }
