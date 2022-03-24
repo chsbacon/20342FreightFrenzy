@@ -12,10 +12,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class MecanumHMap
 {
     /* Public OpMode members. */
-    public DcMotor  LFMotor     = null;
-    public DcMotor  LBMotor     = null;
-    public DcMotor  RFMotor    = null;
-    public DcMotor  RBMotor      = null;
+    public DcMotor  LHMotor     = null;
+    public DcMotor  RHMotor     = null;
+    public DcMotor  FVMotor    = null;
+    public DcMotor  BVMotor      = null;
 
     public RevBlinkinLedDriver blinkinLedDriver;
     public RevBlinkinLedDriver.BlinkinPattern pattern;
@@ -30,35 +30,35 @@ public class MecanumHMap
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        LFMotor    = hwMap.get(DcMotor.class, "LF");
-        LBMotor    = hwMap.get(DcMotor.class, "LB");
-        RFMotor    = hwMap.get(DcMotor.class, "RF");
-        RBMotor    = hwMap.get(DcMotor.class, "RB");
+        LHMotor    = hwMap.get(DcMotor.class, "LH");
+        RHMotor    = hwMap.get(DcMotor.class, "RH");
+        FVMotor    = hwMap.get(DcMotor.class, "FV");
+        BVMotor    = hwMap.get(DcMotor.class, "BV");
     }
 
     /* Initialize standard Hardware interfaces */
     public void init() {
         //Reverse right motor
-        LFMotor.setDirection(DcMotor.Direction.REVERSE);
-        LBMotor.setDirection(DcMotor.Direction.REVERSE);
+        LHMotor.setDirection(DcMotor.Direction.REVERSE);
+        RHMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
-        LFMotor.setPower(0);
-        LBMotor.setPower(0);
-        RFMotor.setPower(0);
-        RBMotor.setPower(0);
+        LHMotor.setPower(0);
+        RHMotor.setPower(0);
+        FVMotor.setPower(0);
+        BVMotor.setPower(0);
 
         //stop and reset?
         // Set motors to run with encoders.
-        LFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RFMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RBMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LHMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RHMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FVMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BVMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set zero power behavior
-        LFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        LBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        RFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        RBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LHMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RHMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FVMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BVMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
  }
