@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,6 +17,9 @@ public class MecanumHMap
     public DcMotor  RFMotor    = null;
     public DcMotor  RBMotor      = null;
 
+    public RevBlinkinLedDriver blinkinLedDriver;
+    public RevBlinkinLedDriver.BlinkinPattern pattern;
+
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -26,10 +30,10 @@ public class MecanumHMap
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        LFMotor    = hwMap.get(DcMotor.class, "LM");
-        LBMotor    = hwMap.get(DcMotor.class, "RM");
-        RFMotor    = hwMap.get(DcMotor.class, "AML");
-        RBMotor    = hwMap.get(DcMotor.class, "AMR");
+        LFMotor    = hwMap.get(DcMotor.class, "LF");
+        LBMotor    = hwMap.get(DcMotor.class, "LB");
+        RFMotor    = hwMap.get(DcMotor.class, "RF");
+        RBMotor    = hwMap.get(DcMotor.class, "RB");
     }
 
     /* Initialize standard Hardware interfaces */
