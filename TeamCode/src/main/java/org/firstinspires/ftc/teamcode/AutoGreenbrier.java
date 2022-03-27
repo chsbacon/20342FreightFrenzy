@@ -16,9 +16,17 @@ public class AutoGreenbrier extends AutoBasicOpMode {
 
     @Override
     public void runOpMode() {
-       runForward(2);
-       runBack(2);
-       runLeft(2);
-       runRight(2);
+        robot.init(hardwareMap);
+        setLight();
+        waitForStart();
+        runForward(0.75);
+        lightOn();
+        runBack(0.75);
+        lightOn();
+        runRight(0.9);
+        lightOn();
+        runLeft(0.9);
+        lightOn();
+
     }
 }

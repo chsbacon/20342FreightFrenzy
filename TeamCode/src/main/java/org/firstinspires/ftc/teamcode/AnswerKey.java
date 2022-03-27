@@ -18,11 +18,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AnswerKey extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
-    MecanumHMap robot = new MecanumHMap(hardwareMap);
+    MecanumHMap robot = new MecanumHMap();
 
     @Override
     public void runOpMode(){
-        robot.init();
+        robot.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -54,9 +54,9 @@ public class AnswerKey extends LinearOpMode{
         if(Math.abs(turnScale) < 1.0) turnScale = 1.0;
 
         // set the motors
-        robot.LFMotor.setPower(LFpwr/turnScale);
-        robot.LBMotor.setPower(LBpwr/turnScale);
-        robot.RFMotor.setPower(RFpwr/turnScale);
-        robot.RBMotor.setPower(RBpwr/turnScale);
+        robot.LHMotor.setPower(LFpwr/turnScale);
+        robot.RHMotor.setPower(LBpwr/turnScale);
+        robot.FVMotor.setPower(RFpwr/turnScale);
+        robot.BVMotor.setPower(RBpwr/turnScale);
     }
 }

@@ -33,7 +33,7 @@ import java.util.Locale;
 
 public class AutoBasicOpMode extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
-    MecanumHMap robot = new MecanumHMap(hardwareMap);
+    MecanumHMap robot = new MecanumHMap();
 
     static final double     COUNTS_PER_MOTOR_REV = 1120; //1548.3;
     static final double     DRIVE_GEAR_REDUCTION = 60.0/72.0;   // output (wheel) speed / input (motor) speed
@@ -56,42 +56,58 @@ public class AutoBasicOpMode extends LinearOpMode{
         telemetry.addData("Carousel", "Complete");
     }
     */
-    public void runForward(int time) {
+    public void runForward(double time) {
         runtime.reset();
-        while(runtime.seconds()<=time) {
+        while(runtime.seconds()<=0.75) {
             robot.RHMotor.setPower(1);
             robot.LHMotor.setPower(1);
+            telemetry.addData("Time", runtime.seconds());
+            telemetry.update();
         }
         robot.RHMotor.setPower(0);
         robot.LHMotor.setPower(0);
     }
-    public void runBack(int time) {
+    public void runBack(double time) {
         runtime.reset();
-        while(runtime.seconds()<=time) {
+        while(runtime.seconds()<=0.75) {
             robot.RHMotor.setPower(-1);
             robot.LHMotor.setPower(-1);
         }
         robot.RHMotor.setPower(0);
         robot.LHMotor.setPower(0);
     }
-    public void runLeft(int time) {
+    public void runLeft(double time) {
         runtime.reset();
-        while(runtime.seconds()<=time) {
+        while(runtime.seconds()<=0.9) {
             robot.FVMotor.setPower(1);
             robot.BVMotor.setPower(1);
         }
         robot.FVMotor.setPower(0);
         robot.BVMotor.setPower(0);
     }
-    public void runRight(int time) {
+    public void runRight(double time) {
         runtime.reset();
-        while(runtime.seconds()<=time) {
+        while(runtime.seconds()<=0.9) {
             robot.FVMotor.setPower(-1);
             robot.BVMotor.setPower(-1);
         }
         robot.FVMotor.setPower(0);
         robot.BVMotor.setPower(0);
     }
+    public void lightOn() {
+        runtime.reset();
+        while(runtime.seconds()<=1) {
+            robot.pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
+            robot.blinkinLedDriver.setPattern(robot.pattern);
+        }
+        robot.pattern = RevBlinkinLedDriver.BlinkinPattern.GRAY;
+        robot.blinkinLedDriver.setPattern(robot.pattern);
+    }
+    public void setLight() {
+        robot.pattern = RevBlinkinLedDriver.BlinkinPattern.GRAY;
+        robot.blinkinLedDriver.setPattern(robot.pattern);
+    }
+
     /*
     public void runIntakeMotor(int time, boolean deposit) {
         if(deposit) robot.intakeMotor.setPower(0.5);

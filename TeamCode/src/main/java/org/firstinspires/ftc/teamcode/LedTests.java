@@ -14,16 +14,16 @@ import com.qualcomm.robotcore.util.Range;
  * This code is structured as a Linear OpMode
  **/
 
-@TeleOp(name = "TemplateTeleOp", group = "Examples")
-@Disabled
+@TeleOp(name = "LedTests", group = "Examples")
+//@Disabled
 
 public class LedTests extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
-    MecanumHMap robot = new MecanumHMap(hardwareMap);
+    MecanumHMap robot = new MecanumHMap();
 
     @Override
     public void runOpMode(){
-        robot.init();
+        robot.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -33,7 +33,7 @@ public class LedTests extends LinearOpMode{
 
         while (opModeIsActive()){
             if(gamepad1.a) {
-                robot.pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE;
+                robot.pattern = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
                 robot.blinkinLedDriver.setPattern(robot.pattern);
             }
         }

@@ -17,7 +17,7 @@ public class MecanumHMap
     public DcMotor  FVMotor    = null;
     public DcMotor  BVMotor      = null;
 
-    public RevBlinkinLedDriver blinkinLedDriver;
+    public RevBlinkinLedDriver blinkinLedDriver = null;
     public RevBlinkinLedDriver.BlinkinPattern pattern;
 
     /* local OpMode members. */
@@ -25,23 +25,24 @@ public class MecanumHMap
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public MecanumHMap(HardwareMap ahwMap){
+    public MecanumHMap(){
+
+    }
+
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        //Reverse right motor
         // Save reference to Hardware map
         hwMap = ahwMap;
-
+        blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
         // Define and Initialize Motors
         LHMotor    = hwMap.get(DcMotor.class, "LH");
         RHMotor    = hwMap.get(DcMotor.class, "RH");
         FVMotor    = hwMap.get(DcMotor.class, "FV");
         BVMotor    = hwMap.get(DcMotor.class, "BV");
-    }
 
-    /* Initialize standard Hardware interfaces */
-    public void init() {
-        //Reverse right motor
         LHMotor.setDirection(DcMotor.Direction.REVERSE);
-        RHMotor.setDirection(DcMotor.Direction.REVERSE);
-
+        FVMotor.setDirection(DcMotor.Direction.REVERSE);
         // Set all motors to zero power
         LHMotor.setPower(0);
         RHMotor.setPower(0);

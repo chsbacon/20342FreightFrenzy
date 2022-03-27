@@ -20,7 +20,8 @@ public class AutoTestsBlue extends AutoBasicOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
+        /*
         robot.init(hardwareMap);
         initWebcam();
 
@@ -37,8 +38,8 @@ public class AutoTestsBlue extends AutoBasicOpMode {
         armSet(IMAGE_LEVEL);
         encoderDrive(DRIVE_SPEED, -11,-11);
         encoderDrive(0.7, 19.8, -19.8);
-        encoderDrive(DRIVE_SPEED, 69, 69);
+        encoderDrive(DRIVE_SPEED, -69, -69);
         encoderDrive(TURN_SPEED, 8,-8);
-
+*/
     }
 }
