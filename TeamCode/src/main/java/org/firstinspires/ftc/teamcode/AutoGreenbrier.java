@@ -18,6 +18,7 @@ public class AutoGreenbrier extends AutoBasicOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         setLight();
+        //waitForB_Button()  <-- add this at the start of ur functions or just in here
         waitForStart();
         runForward(0.75);
         lightOn();
