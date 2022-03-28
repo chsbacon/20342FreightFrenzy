@@ -43,7 +43,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         }
     }
 
-    public void runForward(double time) {
+    public void runForward() {
         runtime.reset();
         while(runtime.seconds()<=0.75) {
             robot.RHMotor.setPower(1);
@@ -55,7 +55,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         robot.LHMotor.setPower(0);
         sleep(2500);
     }
-    public void runBack(double time) {
+    public void runBack() {
         runtime.reset();
         while(runtime.seconds()<=0.75) {
             robot.RHMotor.setPower(-1);
@@ -65,7 +65,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         robot.LHMotor.setPower(0);
         sleep(2500);
     }
-    public void runLeft(double time) {
+    public void runLeft() {
         runtime.reset();
         while(runtime.seconds()<=0.9) {
             robot.FVMotor.setPower(1);
@@ -75,7 +75,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         robot.BVMotor.setPower(0);
         sleep(2500);
     }
-    public void runRight(double time) {
+    public void runRight() {
         runtime.reset();
         while(runtime.seconds()<=0.9) {
             robot.FVMotor.setPower(-1);
@@ -96,7 +96,7 @@ public class AutoBasicOpMode extends LinearOpMode{
         sleep(2500);
     }
     public void setLight() {
-        robot.pattern = RevBlinkinLedDriver.BlinkinPattern.GRAY;
+        robot.pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_PARTY_PALETTE;
         robot.blinkinLedDriver.setPattern(robot.pattern);
     }
 
