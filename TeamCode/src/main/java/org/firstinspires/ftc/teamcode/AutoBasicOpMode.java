@@ -39,61 +39,77 @@ public class AutoBasicOpMode extends LinearOpMode{
     public void runOpMode(){}
 
     public void waitForB_Button(){
-        while(!gamepad1.b) {
+        while(!gamepad1.b && opModeIsActive()) {
+            telemetry.addData("Waiting for B Button ", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+    public void wait25(double wait){
+        double start_time = runtime.seconds();
+        while(runtime.seconds() < start_time+wait && opModeIsActive()){
+            telemetry.addData("Waiting in between ", runtime.seconds());
+            telemetry.update();
         }
     }
 
     public void runForward() {
         runtime.reset();
-        while(runtime.seconds()<=0.75) {
-            robot.RHMotor.setPower(1);
-            robot.LHMotor.setPower(1);
-            telemetry.addData("Time", runtime.seconds());
+        while(runtime.seconds()<=0.3 && opModeIsActive()) {
+            robot.RHMotor.setPower(0.5);
+            robot.LHMotor.setPower(0.5);
+            telemetry.addData("Forward ", runtime.seconds());
             telemetry.update();
         }
         robot.RHMotor.setPower(0);
         robot.LHMotor.setPower(0);
-        sleep(2500);
+        wait25(1.5);
     }
     public void runBack() {
         runtime.reset();
-        while(runtime.seconds()<=0.75) {
-            robot.RHMotor.setPower(-1);
-            robot.LHMotor.setPower(-1);
+        while(runtime.seconds()<=0.3 && opModeIsActive()) {
+            robot.RHMotor.setPower(-0.5);
+            robot.LHMotor.setPower(-0.5);
+            telemetry.addData("Back ", runtime.seconds());
+            telemetry.update();
         }
         robot.RHMotor.setPower(0);
         robot.LHMotor.setPower(0);
-        sleep(2500);
+        wait25(1.5);
     }
     public void runLeft() {
         runtime.reset();
-        while(runtime.seconds()<=0.9) {
-            robot.FVMotor.setPower(1);
-            robot.BVMotor.setPower(1);
+        while(runtime.seconds()<=0.36 && opModeIsActive()) {
+            robot.FVMotor.setPower(0.5);
+            robot.BVMotor.setPower(0.5);
+            telemetry.addData("Left ", runtime.seconds());
+            telemetry.update();
         }
         robot.FVMotor.setPower(0);
         robot.BVMotor.setPower(0);
-        sleep(2500);
+        wait25(1.5);
     }
     public void runRight() {
         runtime.reset();
-        while(runtime.seconds()<=0.9) {
-            robot.FVMotor.setPower(-1);
-            robot.BVMotor.setPower(-1);
+        while(runtime.seconds()<=0.36 && opModeIsActive()) {
+            robot.FVMotor.setPower(-0.5);
+            robot.BVMotor.setPower(-0.5);
+            telemetry.addData("Right ", runtime.seconds());
+            telemetry.update();
         }
         robot.FVMotor.setPower(0);
         robot.BVMotor.setPower(0);
-        sleep(2500);
+        wait25(1.5);
     }
     public void lightOn() {
         runtime.reset();
-        while(runtime.seconds()<=1) {
+        while(runtime.seconds()<=1 && opModeIsActive()) {
             robot.pattern = RevBlinkinLedDriver.BlinkinPattern.BLUE;
             robot.blinkinLedDriver.setPattern(robot.pattern);
         }
         robot.pattern = RevBlinkinLedDriver.BlinkinPattern.GRAY;
         robot.blinkinLedDriver.setPattern(robot.pattern);
-        sleep(2500);
+        wait25(1.5);
     }
     public void setLight() {
         robot.pattern = RevBlinkinLedDriver.BlinkinPattern.RAINBOW_PARTY_PALETTE;
