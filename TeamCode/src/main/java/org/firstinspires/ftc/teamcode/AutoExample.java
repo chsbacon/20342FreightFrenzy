@@ -21,11 +21,11 @@ public class AutoExample extends LinearOpMode{
         waitForStart();
 
         runForward();
-        waits();
+        wait25();
         runForward();
     }
 
-    public void waits(){ //program stalls for 0.25 seconds
+    public void wait25(){ //program stalls for 0.25 seconds
         double start_time = runtime.seconds();
         while(runtime.seconds() < start_time+0.25 && opModeIsActive()){
             telemetry.addData("Waiting in between ", runtime.seconds());
